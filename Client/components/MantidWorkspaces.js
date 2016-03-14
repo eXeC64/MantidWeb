@@ -9,7 +9,7 @@ var MantidWorkspaces = React.createClass({
 
   render: function() {
     const cards = Object.keys(this.props.workspaces).map((key) => {
-      return <WorkspaceCard workspace={this.props.workspaces[key]} />
+      return <WorkspaceCard key={key} workspace={this.props.workspaces[key]} />
     })
 
     if(Object.keys(this.props.workspaces).length > 0) {

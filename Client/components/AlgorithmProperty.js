@@ -63,7 +63,13 @@ var AlgorithmProperty = React.createClass({
           if(this.props.property.values.length > 1) {
             var items = [];
             for(var i = 0; i < this.props.property.values.length; i++) {
-              items.push(<MenuItem value={this.props.property.values[i]} primaryText={this.props.property.values[i]} />);
+              items.push(
+                <MenuItem
+                  value={this.props.property.values[i]}
+                  primaryText={this.props.property.values[i]}
+                  key={i}
+                />
+              );
             }
 
             return (

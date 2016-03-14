@@ -29,7 +29,7 @@ var MantidAlgorithms = React.createClass({
           />
         )
       })
-      algList.push(<View column />)
+      algList.push(<View column key="spacer" />)
     } else {
       algList = (
         <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
