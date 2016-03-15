@@ -134,7 +134,7 @@ json MantidWrapper::GetAlgorithmSummary(int algorithm)
   if(alg->isRunning())
     summary["state"] = "running";
   else if(alg->isExecuted())
-    summary["state"] = "run";
+    summary["state"] = "completed";
   else if(alg->isInitialized())
     summary["state"] = "ready";
   else
