@@ -9,7 +9,6 @@
 #include <MantidDataObjects/Workspace2D.h>
 #include <MantidKernel/UsageService.h>
 
-
 #include <boost/algorithm/string.hpp>
 
 namespace
@@ -141,6 +140,10 @@ json MantidWrapper::GetAlgorithmSummary(int algorithm)
   else
     summary["state"] = "other";
 
+  summary["progress"] = 0.0;
+  summary["message"] = "";
+  summary["error"] = "";
+
   return summary;
 }
 
@@ -206,7 +209,30 @@ int MantidWrapper::CreateAlgorithm(const std::string& name, int version)
     std::cout << "Created " << name << "-v" << version << std::endl;
     int id = NewAlgorithmId();
     std::cout << "Given id: " << id << std::endl;
+
+    std::unique_ptr<CallbackAlgorithmObserver> observer(new CallbackAlgorithmObserver(
+      id,
+      alg,
+      [this](int alg)
+      {
+        this->StartEvent(alg);
+      },
+      [this](int alg)
+      {
+        this->StopEvent(alg);
+      },
+      [this](int alg, double prog, const std::string& msg)
+      {
+        this->ProgressEvent(alg, prog, msg);
+      },
+      [this](int alg, const std::string& err)
+      {
+        this->ErrorEvent(alg, err);
+      }
+    ));
+
     m_algorithms[id] = alg;
+    m_algObservers[id] = std::move(observer);
     return id;
   }
   catch(std::exception &e)
@@ -258,11 +284,9 @@ bool MantidWrapper::RunAlgorithm(int algorithm)
   if(m_algorithms.find(algorithm) == m_algorithms.end())
     return false;
 
-  //TODO: execute asynchronously
-  m_algorithms[algorithm]->setRethrows(true);
-  bool result = m_algorithms[algorithm]->execute();
-
-  std::cout << "result: " << result << std::endl;
+  std::cout << "pre-run" << std::endl;
+  this->m_algorithms[algorithm]->executeAsync();
+  std::cout << "post-run" << std::endl;
 
   return true;
 }
@@ -310,6 +334,30 @@ void MantidWrapper::ClearEvent(Mantid::API::ClearADSNotification_ptr)
   m_clearHandler();
 }
 
+void MantidWrapper::StartEvent(int alg)
+{
+  std::cout << "algorithm started:" << alg << std::endl;
+  m_startHandler(alg);
+}
+
+void MantidWrapper::StopEvent(int alg)
+{
+  std::cout << "algorithm stopped:" << alg << std::endl;
+  m_stopHandler(alg);
+}
+
+void MantidWrapper::ProgressEvent(int alg, double prog, const std::string& msg)
+{
+  std::cout << "algorithm progressed:" << alg << " " << prog * 100 << "% " << msg << std::endl;
+  m_progressHandler(alg, prog, msg);
+}
+
+void MantidWrapper::ErrorEvent(int alg, const std::string& error)
+{
+  std::cout << "algorithm failed:" << alg << " " << error << std::endl;
+  m_errorHandler(alg, error);
+}
+
 void MantidWrapper::SetWorkspaceAddedHandler(std::function<void(const std::string&)> cb)
 {
   m_addHandler = cb;
@@ -333,4 +381,24 @@ void MantidWrapper::SetWorkspaceRenamedHandler(std::function<void(const std::str
 void MantidWrapper::SetWorkspacesClearedHandler(std::function<void()> cb)
 {
   m_clearHandler = cb;
+}
+
+void MantidWrapper::SetAlgorithmStartedHandler(std::function<void(int)> cb)
+{
+  m_startHandler = cb;
+}
+
+void MantidWrapper::SetAlgorithmFinishedHandler(std::function<void(int)> cb)
+{
+  m_stopHandler = cb;
+}
+
+void MantidWrapper::SetAlgorithmProgressHandler(std::function<void(int, double, const std::string&)> cb)
+{
+  m_progressHandler = cb;
+}
+
+void MantidWrapper::SetAlgorithmErrorHandler(std::function<void(int, const std::string&)> cb)
+{
+  m_errorHandler = cb;
 }

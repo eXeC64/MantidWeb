@@ -45,6 +45,10 @@ private:
   void OnWorkspaceReplaced(const std::string& name);
   void OnWorkspaceRenamed(const std::string& oldName, const std::string& newName);
   void OnWorkspacesCleared();
+  void OnAlgorithmStarted(int id);
+  void OnAlgorithmFinished(int id);
+  void OnAlgorithmProgress(int id, double prog, const std::string& msg);
+  void OnAlgorithmError(int id, const std::string& error);
 
   // Websocket server
   WebSocketServer m_server;

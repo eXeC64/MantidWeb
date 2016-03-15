@@ -21,7 +21,8 @@ LDFLAGS = \
 	-lMantidDataObjects \
 	-lMantidAlgorithms \
 	-lMantidMDAlgorithms \
-	-lPocoFoundation
+	-lPocoFoundation \
+	-lpthread
 
 TARGET = MantidHTTP
 BUILDDIR = build

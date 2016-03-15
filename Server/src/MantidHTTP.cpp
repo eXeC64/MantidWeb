@@ -14,6 +14,11 @@ void MantidHTTP::Run()
   m_mantid.SetWorkspaceRenamedHandler(boost::bind(&MantidHTTP::OnWorkspaceRenamed, this, _1, _2));
   m_mantid.SetWorkspacesClearedHandler(boost::bind(&MantidHTTP::OnWorkspacesCleared, this));
 
+  m_mantid.SetAlgorithmStartedHandler(boost::bind(&MantidHTTP::OnAlgorithmStarted, this, _1));
+  m_mantid.SetAlgorithmFinishedHandler(boost::bind(&MantidHTTP::OnAlgorithmFinished, this, _1));
+  m_mantid.SetAlgorithmProgressHandler(boost::bind(&MantidHTTP::OnAlgorithmProgress, this, _1, _2, _3));
+  m_mantid.SetAlgorithmErrorHandler(boost::bind(&MantidHTTP::OnAlgorithmError, this, _1, _2));
+
   m_server.set_open_handler(
     [this](connection_hdl hdl)
     {
@@ -154,15 +159,7 @@ void MantidHTTP::HandleMessage(connection_hdl hdl, const json& js)
   }
   else if(js["type"] == "RUN_ALGORITHM")
   {
-    if(m_mantid.RunAlgorithm(js["id"]))
-    {
-      Broadcast({
-          {"type", "ALGORITHM_RUNNING"},
-          {"algorithm", js["id"]}
-      });
-    }
-    else
-      Send(hdl, {{"type", "ERROR"}, {"error", "error running algorithm"}});
+    m_mantid.RunAlgorithm(js["id"]);
   }
   else if(js["type"] == "GET_WORKSPACE_LIST")
   {
@@ -250,3 +247,49 @@ void MantidHTTP::OnWorkspacesCleared()
   });
 }
 
+void MantidHTTP::OnAlgorithmStarted(int id)
+{
+  Broadcast({
+      {"type", "ALGORITHM_STATE"},
+      {"algorithm", id},
+      {"state", "running"},
+      {"progress", 0.00},
+      {"message", ""},
+      {"error", ""}
+  });
+}
+
+void MantidHTTP::OnAlgorithmFinished(int id)
+{
+  Broadcast({
+      {"type", "ALGORITHM_STATE"},
+      {"algorithm", id},
+      {"state", "completed"},
+      {"progress", 1.00},
+      {"message", ""},
+      {"error", ""}
+  });
+}
+
+void MantidHTTP::OnAlgorithmProgress(int id, double prog, const std::string& msg)
+{
+  Broadcast({
+      {"type", "ALGORITHM_STATE"},
+      {"algorithm", id},
+      {"state", "running"},
+      {"progress", prog},
+      {"message", msg}
+  });
+}
+
+void MantidHTTP::OnAlgorithmError(int id, const std::string& error)
+{
+  Broadcast({
+      {"type", "ALGORITHM_STATE"},
+      {"algorithm", id},
+      {"state", "failed"},
+      {"progress", 0.00},
+      {"message", ""},
+      {"error", error}
+  });
+}
