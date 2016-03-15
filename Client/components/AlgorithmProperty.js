@@ -45,70 +45,59 @@ var AlgorithmProperty = React.createClass({
     this.props.onChange(this.props.property.name, value);
   },
 
-  render() {
-    const propertyEditor = ((()=>{
-      switch(this.props.property.type) {
-        case "string":
-        case "number":
-        case "int list":
-        case "dbl list":
-        case "str list":
-        case "Workspace":
-        case "MatrixWorkspace":
-        case "TableWorkspace":
-        case "IEventWorkspace":
-        case "IMDWorkspace":
-        case "MDEventWorkspace":
+  render: function() {
 
-          if(this.props.property.values.length > 1) {
-            var items = [];
-            for(var i = 0; i < this.props.property.values.length; i++) {
-              items.push(
-                <MenuItem
-                  value={this.props.property.values[i]}
-                  primaryText={this.props.property.values[i]}
-                  key={i}
-                />
-              );
-            }
+    const booleanEditor = (
+      <Toggle
+        label={this.props.property.name}
+        style={{marginTop: 40}}
+        defaultToggled={this.props.property.value === "1"}
+      />
+    );
 
-            return (
-              <SelectField
-                floatingLabelText={this.props.property.name}
-                value={this.state.value}
-                onChange={this.handleAndSaveChange}
-              >
-                {items}
-              </SelectField>
-            )
-          } else {
-            return (
-              <TextField
-                floatingLabelText={this.props.property.name}
-                value={this.state.value}
-                errorText={this.props.property.error}
-                onChange={this.handleChange}
-                onBlur={this.saveChanges}
-                onEnterKeyDown={this.saveChanges}
-                hintText={this.props.property.type}
-              />
-            )
-          }
-          break;
-        case "boolean":
-          return (
-            <Toggle
-              label={this.props.property.name}
-              style={{marginTop: 40}}
-              defaultToggled={this.props.property.value === "1"}
-            />
-          )
-          break;
-        default:
-          return <p>Unsupported type: {this.props.property.type}</p>
+    const selectEditor = (() => {
+      var items = [];
+      for(var i = 0; i < this.props.property.values.length; i++) {
+        items.push(
+          <MenuItem
+            value={this.props.property.values[i]}
+            primaryText={this.props.property.values[i]}
+            key={i}
+          />
+        )
       }
-      })()
+
+      return (
+        <SelectField
+          floatingLabelText={this.props.property.name}
+          value={this.state.value}
+          onChange={this.handleAndSaveChange}
+        >
+          {items}
+        </SelectField>
+      )
+    })()
+
+    const textEditor = (
+      <TextField
+        floatingLabelText={this.props.property.name}
+        value={this.state.value}
+        errorText={this.props.property.error}
+        onChange={this.handleChange}
+        onBlur={this.saveChanges}
+        onEnterKeyDown={this.saveChanges}
+        hintText={this.props.property.type}
+      />
     )
+
+    var propertyEditor;
+    if(this.props.property.type == "boolean") {
+      propertyEditor = booleanEditor;
+    } else if(this.props.property.values.length > 1) {
+      propertyEditor = selectEditor;
+    } else {
+      propertyEditor = textEditor;
+    }
 
     return (
       <div
