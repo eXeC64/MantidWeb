@@ -104,7 +104,7 @@ var AlgorithmCard = React.createClass({
           <div style={{marginLeft: 20}}>
           {properties}
           </div>
-          <Divider style={{margin:10}}/>
+          <Divider style={{margin:10, marginTop: 50}}/>
           {actionBar}
         </CardText>
         <CardActions expandable={true}>
