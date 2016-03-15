@@ -46,7 +46,6 @@ public:
 private:
   std::map<int,Mantid::API::IAlgorithm_sptr> m_algorithms;
   std::map<int,std::unique_ptr<CallbackAlgorithmObserver>> m_algObservers;
-  int m_nextAlgId;
 
   int NewAlgorithmId();
 

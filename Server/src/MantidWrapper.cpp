@@ -20,8 +20,7 @@ namespace
 }
 
 MantidWrapper::MantidWrapper()
- : m_nextAlgId(0)
- , m_deleteObserver(*this,&MantidWrapper::DeleteEvent)
+ : m_deleteObserver(*this,&MantidWrapper::DeleteEvent)
  , m_addObserver(*this,&MantidWrapper::AddEvent)
  , m_replaceObserver(*this,&MantidWrapper::ReplaceEvent)
  , m_renameObserver(*this,&MantidWrapper::RenameEvent)
@@ -293,14 +292,13 @@ bool MantidWrapper::RunAlgorithm(int algorithm)
 
 int MantidWrapper::NewAlgorithmId()
 {
-  int id = m_nextAlgId;
+  int id = 1;
   while(m_algorithms.find(id) != m_algorithms.end() || id < 0)
   {
     if(id < 0)
       id = 0;
     ++id;
   }
-  m_nextAlgId = id + 1;
   return id;
 }
 
