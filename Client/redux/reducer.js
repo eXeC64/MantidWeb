@@ -3,8 +3,6 @@ export default function reducer(state, action) {
   switch(action.type) {
     case 'MANTID_CONNECTION':
       return Object.assign({}, state, {status: action.status} )
-    case 'SELECT_INTERFACE':
-      return Object.assign({}, state, {selectedInterface: action.interface})
     case 'USABLE_ALGORITHMS':
       return Object.assign({}, state, {usable_algorithms: action.data})
     case 'ALGORITHM_LIST':

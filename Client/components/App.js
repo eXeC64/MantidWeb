@@ -23,6 +23,12 @@ import MenuListItem from './MenuListItem'
 
 var App = React.createClass({
 
+  getInitialState: function() {
+    return {
+      interface: 'algorithms'
+    }
+  },
+
   doConnect: function() {
     this.props.actions.mantidConnect(
         document.getElementById('mantid_url').value,
@@ -35,13 +41,13 @@ var App = React.createClass({
   },
 
   selectInterface: function(iface) {
-    this.props.actions.selectInterface(iface)
+    this.setState({interface: iface})
   },
 
   render: function() {
 
     var curInterface;
-    switch(this.props.selectedInterface) {
+    switch(this.state.interface) {
       case "workspaces":
         curInterface = <MantidWorkspaces workspaces={this.props.workspaces}/>
         break
@@ -91,25 +97,25 @@ var App = React.createClass({
               <MenuListItem
                 title="Algorithms"
                 icon="functions"
-                selected={this.props.selectedInterface == 'algorithms'}
+                selected={this.state.interface == 'algorithms'}
                 onTouchTap={() => this.selectInterface("algorithms")}
               />
               <MenuListItem
                 title="Workspaces"
                 icon="storage"
-                selected={this.props.selectedInterface == 'workspaces'}
+                selected={this.state.interface == 'workspaces'}
                 onTouchTap={() => this.selectInterface("workspaces")}
               />
               <MenuListItem
                 title="Graphs"
                 icon="show_chart"
-                selected={this.props.selectedInterface == 'graphs'}
+                selected={this.state.interface == 'graphs'}
                 onTouchTap={() => this.selectInterface("graphs")}
               />
               <MenuListItem
                 title="Data"
                 icon="cloud"
-                selected={this.props.selectedInterface == 'data'}
+                selected={this.state.interface == 'data'}
                 onTouchTap={() => this.selectInterface("data")}
               />
             </List>

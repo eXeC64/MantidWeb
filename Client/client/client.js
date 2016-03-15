@@ -14,7 +14,6 @@ injectTapEventPlugin();
 
 let initialState = {
   status: 'disconnected',
-  selectedInterface: 'algorithms',
   workspaces: {},
   algorithms: {},
   usable_algorithms: [],

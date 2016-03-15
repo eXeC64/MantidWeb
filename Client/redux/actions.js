@@ -34,13 +34,6 @@ let actions = {
     }
   },
 
-  selectInterface: function(iface) {
-    return {
-      type: 'SELECT_INTERFACE',
-      interface: iface
-    }
-  },
-  
   createAlgorithm: function(name, version) {
     return {
       type: 'CREATE_ALGORITHM',
