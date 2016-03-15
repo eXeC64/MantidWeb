@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {Card, CardHeader, CardText, CardTitle, CardActions} from 'material-ui/lib/card'
+import CircularProgress from 'material-ui/lib/circular-progress'
 import * as colors from 'material-ui/lib/styles/colors'
 import Divider from 'material-ui/lib/divider'
 import FontIcon from 'material-ui/lib/font-icon'
@@ -66,9 +67,19 @@ var AlgorithmCard = React.createClass({
       </View>
     )
 
-    const cardIcon = (
-      <FontIcon className="material-icons">functions</FontIcon>
-    )
+    var cardIcon;
+    if(this.props.algorithm.state === "ready") {
+      cardIcon = <FontIcon className="material-icons">query_builder</FontIcon>
+    } else if(this.props.algorithm.state === "running") {
+      cardIcon = <CircularProgress size={0.5} />
+    } else if(this.props.algorithm.state === "completed") {
+      cardIcon = <FontIcon className="material-icons">done</FontIcon>
+    } else if(this.props.algorithm.state === "failed") {
+      cardIcon = <FontIcon className="material-icons">error</FontIcon>
+    } else {
+      cardIcon = <FontIcon className="material-icons">functions</FontIcon>
+    }
+
 
     const properties =
       Object.keys(this.props.algorithm.properties).map((key) => {
@@ -94,7 +105,6 @@ var AlgorithmCard = React.createClass({
         >
         </CardHeader>
         <LinearProgress
-          style={{padding: 3}}
           mode="determinate"
           value={this.props.algorithm.progress * 100}
         />
