@@ -139,7 +139,7 @@ json MantidWrapper::GetAlgorithmSummary(int algorithm)
   else
     summary["state"] = "other";
 
-  summary["progress"] = 0.0;
+  summary["progress"] = summary["state"] == "completed" ? 1.0 : 0.0;
   summary["message"] = "";
   summary["error"] = "";
 
