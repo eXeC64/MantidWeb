@@ -46,46 +46,58 @@ var App = React.createClass({
 
   render: function() {
 
-    var curInterface;
+    const intWorkspaces = (
+      <MantidWorkspaces
+        workspaces={this.props.workspaces}
+      />
+    )
+    const intAlgorithms = (
+      <MantidAlgorithms
+        actions={this.props.actions}
+        algorithms={this.props.algorithms}
+        usable_algorithms={this.props.usable_algorithms}
+      />
+    )
+    const intGraphs = (
+      <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
+        <h1>TODO: Graphs Interface</h1>
+        <p>
+          This is the graphs interface. Its purpose is to view and manage
+          the various plots and graphs that the user can generate from their
+          workspaces.
+        </p>
+      </Card>
+    )
+
+    const intData = (
+      <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
+        <h1>TODO: Data Browser</h1>
+        <p>
+          This is the data interface. Its purpose is to provide a basic
+          filesystem view of the user's storage area, which they can load
+          workspaces from, and save them to.
+        </p>
+      </Card>
+    )
+
+    const intError = (
+      <h1>Error, invalid interface selected</h1>
+    )
+
+    var curInterface = intError;
+
     switch(this.state.interface) {
       case "workspaces":
-        curInterface = <MantidWorkspaces workspaces={this.props.workspaces}/>
+        curInterface = intWorkspaces
         break
       case "algorithms":
-        curInterface = (
-          <MantidAlgorithms
-            actions={this.props.actions}
-            algorithms={this.props.algorithms}
-            usable_algorithms={this.props.usable_algorithms}
-          />
-        )
+        curInterface = intAlgorithms
         break
       case "graphs":
-        curInterface = (
-          <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
-            <h1>TODO: Graphs Interface</h1>
-            <p>
-              This is the graphs interface. Its purpose is to view and manage
-              the various plots and graphs that the user can generate from their
-              workspaces.
-            </p>
-          </Card>
-        )
+        curInterface = intGraphs
         break
       case "data":
-        curInterface = (
-          <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
-            <h1>TODO: Data Browser</h1>
-            <p>
-              This is the data interface. Its purpose is to provide a basic
-              filesystem view of the user's storage area, which they can load
-              workspaces from, and save them to.
-            </p>
-          </Card>
-        )
-        break
-      default:
-        curInterface = <h1>Error, invalid interface selected</h1>
+        curInterface = intData
         break
     }
 
