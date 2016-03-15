@@ -96,6 +96,7 @@ var AlgorithmCard = React.createClass({
         <LinearProgress
           style={{padding: 3}}
           mode="determinate"
+          value={this.props.algorithm.progress * 100}
         />
         <CardText expandable={true}>
           {actionBar}

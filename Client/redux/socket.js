@@ -31,6 +31,7 @@ const socketMiddleware = (function(){
       case "ALGORITHM_DELETED":
       case "WORKSPACE_DELETED":
       case "PROPERTY_UPDATED":
+      case "ALGORITHM_STATE":
         store.dispatch(msg);
         break;
       default:
