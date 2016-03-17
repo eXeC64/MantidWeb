@@ -29,11 +29,6 @@ MantidWrapper::MantidWrapper()
   Mantid::Kernel::UsageService::Instance().setApplication("mantidweb");
   Mantid::API::FrameworkManager::Instance();
   Mantid::API::AnalysisDataService::Instance();
-  auto& ff = Mantid::API::FunctionFactory::Instance();
-  for(const auto& f : ff.getFunctionNames<Mantid::API::IPeakFunction>())
-  {
-    std::cout << "function: " << f << std::endl;
-  }
 
   //Subscribe to ADS events
   auto& notificationCenter = Mantid::API::AnalysisDataService::Instance().notificationCenter;
