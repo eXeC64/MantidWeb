@@ -66,17 +66,6 @@ var App = React.createClass({
       />
     )
 
-    const intData = (
-      <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
-        <h1>TODO: Data Browser</h1>
-        <p>
-          This is the data interface. Its purpose is to provide a basic
-          filesystem view of the user's storage area, which they can load
-          workspaces from, and save them to.
-        </p>
-      </Card>
-    )
-
     const intError = (
       <h1>Error, invalid interface selected</h1>
     )
@@ -92,9 +81,6 @@ var App = React.createClass({
         break
       case "graphs":
         curInterface = intGraphs
-        break
-      case "data":
-        curInterface = intData
         break
     }
 
@@ -120,12 +106,6 @@ var App = React.createClass({
                 icon="show_chart"
                 selected={this.state.interface == 'graphs'}
                 onTouchTap={() => this.selectInterface("graphs")}
-              />
-              <MenuListItem
-                title="Data"
-                icon="cloud"
-                selected={this.state.interface == 'data'}
-                onTouchTap={() => this.selectInterface("data")}
               />
             </List>
             <Divider />

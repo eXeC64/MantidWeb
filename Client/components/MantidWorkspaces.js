@@ -83,7 +83,7 @@ var MantidWorkspaces = React.createClass({
           <CardText>
             <p>
               You have not created any workspaces yet.
-              You can load your data using the Data interface, or create a
+              You can load your data using the button above, or create a
               workspace using an algorithm.
             </p>
           </CardText>
