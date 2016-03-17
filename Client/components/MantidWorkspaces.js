@@ -2,18 +2,78 @@ import React from 'react'
 
 import {Card, CardHeader, CardText, CardTitle, CardActions} from 'material-ui/lib/card'
 import * as colors from 'material-ui/lib/styles/colors'
+import List from 'material-ui/lib/lists/list'
 
-import WorkspaceCard from './WorkspaceCard'
+import MantidButton from './MantidButton'
+import WorkspaceItem from './WorkspaceItem'
 
 var MantidWorkspaces = React.createClass({
 
+  getInitialState: function() {
+    return {
+      selected: []
+    }
+  },
+
+  toggleSelection: function(name) {
+    var add = !this.state.selected.includes(name);
+
+    if(add) {
+      this.setState({
+        selected: [
+          ...this.state.selected,
+          name
+        ]
+      });
+    } else {
+      this.setState({
+        selected: this.state.selected.filter((key) => key != name)
+      });
+    }
+  },
+
   render: function() {
-    const cards = Object.keys(this.props.workspaces).map((key) => {
-      return <WorkspaceCard key={key} workspace={this.props.workspaces[key]} />
+
+    const actionBar = (
+      <div>
+        <MantidButton
+          label="Rename"
+          icon="create"
+          style={{marginTop: 10, marginRight: 10}}
+          disabled={this.state.selected.length != 1}
+        />
+        <MantidButton
+          label="Delete"
+          icon="delete"
+          style={{marginTop: 10, marginRight: 10}}
+          backgroundColor={colors.red900}
+          disabled={this.state.selected.length < 1}
+        />
+      </div>
+    )
+
+    const items = Object.keys(this.props.workspaces).map((key) => {
+      return (
+        WorkspaceItem({
+          key: key,
+          workspace: this.props.workspaces[key],
+          onSelect: this.toggleSelection,
+          selected: this.state.selected
+        })
+      )
     })
 
     if(Object.keys(this.props.workspaces).length > 0) {
-      return <div>{cards}</div>
+      return (
+        <div>
+          {actionBar}
+          <Card zDepth={2} style={{marginTop: 10, width: 750}}>
+            <List subheader="Workspaces">
+              {items}
+            </List>
+          </Card>
+        </div>
+      )
     } else {
       return (
         <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
