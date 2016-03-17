@@ -168,13 +168,6 @@ void MantidHTTP::HandleMessage(connection_hdl hdl, const json& js)
         {"data", m_mantid.GetWorkspaces()}
     });
   }
-  else if(js["type"] == "GET_WORKSPACE_DETAILS")
-  {
-    Send(hdl, {
-        {"type", "WORKSPACE_DETAILS"},
-        {"data", m_mantid.GetWorkspaceDetails(js["workspace"])}
-    });
-  }
   else
   {
     Send(hdl, {{"type","ERROR"}, {"error", "unsupported type"}});
@@ -209,33 +202,32 @@ void MantidHTTP::Broadcast(const json& js)
 void MantidHTTP::OnWorkspaceAdded(const std::string& name)
 {
   Broadcast({
-      {"type", "WORKSPACE_DETAILS"},
-      {"data", m_mantid.GetWorkspaceDetails(name)}
+      {"type", "WORKSPACE_LIST"},
+      {"data", m_mantid.GetWorkspaces()}
   });
 }
 
 void MantidHTTP::OnWorkspaceDeleted(const std::string& name)
 {
   Broadcast({
-      {"type", "WORKSPACE_DELETED"},
-      {"name", name}
+      {"type", "WORKSPACE_LIST"},
+      {"data", m_mantid.GetWorkspaces()}
   });
 }
 
 void MantidHTTP::OnWorkspaceReplaced(const std::string& name)
 {
   Broadcast({
-      {"type", "WORKSPACE_DETAILS"},
-      {"data", m_mantid.GetWorkspaceDetails(name)}
+      {"type", "WORKSPACE_LIST"},
+      {"data", m_mantid.GetWorkspaces()}
   });
 }
 
 void MantidHTTP::OnWorkspaceRenamed(const std::string& oldName, const std::string& newName)
 {
   Broadcast({
-      {"type", "WORKSPACE_RENAMED"},
-      {"oldName", oldName},
-      {"newName", newName}
+      {"type", "WORKSPACE_LIST"},
+      {"data", m_mantid.GetWorkspaces()}
   });
 }
 

@@ -23,13 +23,11 @@ const socketMiddleware = (function(){
           ws.send(JSON.stringify({type: "GET_WORKSPACE_LIST"}));
         }
         break;
+      case "WORKSPACE_LIST":
       case "USABLE_ALGORITHMS":
       case "ALGORITHM_LIST":
-      case "WORKSPACE_LIST":
       case "ALGORITHM_DETAILS":
-      case "WORKSPACE_DETAILS":
       case "ALGORITHM_DELETED":
-      case "WORKSPACE_DELETED":
       case "PROPERTY_UPDATED":
       case "ALGORITHM_STATE":
         store.dispatch(msg);

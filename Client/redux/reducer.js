@@ -11,31 +11,19 @@ export default function reducer(state, action) {
       return Object.assign({}, state, {algorithms: action.data})
 
     case 'WORKSPACE_LIST':
-      return Object.assign({}, state, {workspaces: action.data})
+      return {
+        ...state,
+        workspaces: action.data
+      }
 
     case 'ALGORITHM_DETAILS':
       const algs = Object.assign({}, state.algorithms, {[action.data.id]: action.data})
       return Object.assign({}, state, {algorithms: algs})
 
-    case 'WORKSPACE_DETAILS':
-      const wsps = Object.assign({}, state.workspaces, {[action.data.name]: action.data})
-      return Object.assign({}, state, {workspaces: wsps})
-
     case 'ALGORITHM_DELETED':
       const deleted_algs = Object.assign({}, state.algorithms);
       delete deleted_algs[action.id];
       return Object.assign({}, state, {algorithms: deleted_algs})
-
-    case 'WORKSPACE_DELETED':
-      const deleted_wsps = Object.assign({}, state.workspaces);
-      delete deleted_wsps[action.name];
-      return Object.assign({}, state, {workspaces: deleted_wsps})
-
-    case 'WORKSPACE_RENAMED':
-      const renamed_wsps = Object.assign({}, state.workspaces);
-      renamed_wsps[action.newName] = renamed_wsps[action.oldName]
-      delete renamed_wsps[action.oldName];
-      return Object.assign({}, state, {workspaces: renamed_wsps})
 
     case "ALGORITHM_STATE":
       var alg_details = {
