@@ -63,12 +63,23 @@ json MantidWrapper::GetWorkspaceDetails(const std::string& name)
   wsItem["name"] = ws->name();
   wsItem["type"] = ws->id();
   wsItem["title"] = ws->getTitle();
+  wsItem["children"] = json::object();
 
   if(ws->id() == "Workspace2D")
   {
     auto ws2D = ads.retrieveWS<Mantid::DataObjects::Workspace2D>(name);
     wsItem["numBins"] = ws2D->blocksize();
     wsItem["numHistograms"] = ws2D->getNumberHistograms();
+  }
+  else if(ws->id() == "WorkspaceGroup")
+  {
+    //Add children
+    auto gws = ads.retrieveWS<Mantid::API::WorkspaceGroup>(name);
+    for(size_t i = 0; i < gws->size(); ++i)
+    {
+      auto cws = gws->getItem(i);
+      wsItem["children"][cws->name()] = GetWorkspaceDetails(cws->name());
+    }
   }
 
   return wsItem;
