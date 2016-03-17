@@ -105,7 +105,7 @@ var AlgorithmProperty = React.createClass({
       >
         <View row>
         {propertyEditor}
-          <PropertyHelpDialog property={this.props.property} />
+        <PropertyHelpDialog property={this.props.property} />
         </View>
       </div>
     )
