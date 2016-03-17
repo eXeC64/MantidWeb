@@ -8,35 +8,28 @@ import RaisedButton from 'material-ui/lib/raised-button'
 import Toggle from 'material-ui/lib/toggle'
 import View from 'react-flexbox'
 
-import AlgorithmCard from './AlgorithmCard'
 import MantidButton from './MantidButton'
-import NewAlgorithmDialog from './NewAlgorithmDialog'
+import NewGraphDialog from './NewGraphDialog'
 
-var MantidAlgorithms = React.createClass({
+var MantidGraphs = React.createClass({
 
   render: function() {
 
-    var algList;
+    var graphList;
 
-    if(Object.keys(this.props.algorithms).length > 0) {
-      algList = Object.keys(this.props.algorithms).map((key) => {
-        return (
-          <AlgorithmCard
-            algorithm={this.props.algorithms[key]}
-            actions={this.props.actions}
-            key={key}
-          />
-        )
+    if(Object.keys(this.props.graphs).length > 0) {
+      graphList = Object.keys(this.props.graphs).map((key) => {
+        return <p>Algorithm {key}</p>
       })
-      algList.push(<View column key="spacer" />)
+      graphList.push(<View column key="spacer" />)
     } else {
-      algList = (
+      graphList = (
         <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
           <CardTitle
-            title="No Algorithm Instances"
+            title="No Graphs"
           />
           <CardText>
-            <p>You have not created any algorithms yet. You can use the New button above to run one.</p>
+            <p>You have not created any graphs yet. You can use the New button above to create one.</p>
           </CardText>
         </Card>
       )
@@ -48,19 +41,18 @@ var MantidAlgorithms = React.createClass({
       >
         <div>
           <View row>
-            <NewAlgorithmDialog
+            <NewGraphDialog
               buttonStyle={{marginTop: 10, marginRight: 10}}
-              algorithms={this.props.usable_algorithms}
               actions={this.props.actions}
             />
           </View>
         </div>
         <View column>
-          {algList}
+          {graphList}
         </View>
       </View>
     )
   }
 })
 
-export default MantidAlgorithms
+export default MantidGraphs

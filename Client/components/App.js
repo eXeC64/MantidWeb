@@ -18,6 +18,7 @@ import View from 'react-flexbox'
 
 import MantidWorkspaces from './MantidWorkspaces'
 import MantidAlgorithms from './MantidAlgorithms'
+import MantidGraphs from './MantidGraphs'
 
 import MenuListItem from './MenuListItem'
 
@@ -59,14 +60,10 @@ var App = React.createClass({
       />
     )
     const intGraphs = (
-      <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
-        <h1>TODO: Graphs Interface</h1>
-        <p>
-          This is the graphs interface. Its purpose is to view and manage
-          the various plots and graphs that the user can generate from their
-          workspaces.
-        </p>
-      </Card>
+      <MantidGraphs
+        actions={this.props.actions}
+        graphs={this.props.graphs}
+      />
     )
 
     const intData = (

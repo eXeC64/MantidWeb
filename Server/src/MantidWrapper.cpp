@@ -196,6 +196,16 @@ json MantidWrapper::GetAlgorithmProperties(int algorithm)
   return props;
 }
 
+json MantidWrapper::GetGraphDetails(int graph)
+{
+  return json::object();
+}
+
+json MantidWrapper::GetGraphData(int graph)
+{
+  return json::object();
+}
+
 int MantidWrapper::CreateAlgorithm(const std::string& name, int version)
 {
   auto& algMgr = Mantid::API::AlgorithmManager::Instance();
@@ -288,6 +298,21 @@ bool MantidWrapper::RunAlgorithm(int algorithm)
   std::cout << "post-run" << std::endl;
 
   return true;
+}
+
+int MantidWrapper::CreateHistGraph(const std::string& workspace, const std::string& spectra)
+{
+  return 0;
+}
+
+int MantidWrapper::Create2DGraph(const std::string& workspace)
+{
+  return 0;
+}
+
+bool MantidWrapper::DeleteGraph(int graph)
+{
+  return false;
 }
 
 int MantidWrapper::NewAlgorithmId()

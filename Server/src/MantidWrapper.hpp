@@ -28,9 +28,16 @@ public:
   json GetAlgorithmProperties(int alg);
   json SetAlgorithmProperty(int algorithm, const std::string& property, const std::string& value);
 
+  json GetGraphDetails(int graph);
+  json GetGraphData(int graph);
+
   int CreateAlgorithm(const std::string& name, int version);
   bool DeleteAlgorithm(int algorithm);
   bool RunAlgorithm(int algorithm);
+
+  int CreateHistGraph(const std::string& workspace, const std::string& spectra);
+  int Create2DGraph(const std::string& workspace);
+  bool DeleteGraph(int graph);
 
   void SetWorkspaceAddedHandler(std::function<void(const std::string&)> cb);
   void SetWorkspaceDeletedHandler(std::function<void(const std::string&)> cb);
