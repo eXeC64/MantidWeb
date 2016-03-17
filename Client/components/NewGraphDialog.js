@@ -9,6 +9,14 @@ import RaisedButton from 'material-ui/lib/raised-button'
 
 var NewGraphDialog = React.createClass({
 
+  getDefaultProps: function() {
+    return {
+      icon: "add",
+      label: "New Graph",
+      disabled: false
+    }
+  },
+
   getInitialState: function() {
     return {
       open: false,
@@ -47,14 +55,15 @@ var NewGraphDialog = React.createClass({
     ]
 
     return (
-      <div>
+      <span>
         <RaisedButton
-          label="New Graph"
-          icon={<FontIcon className="material-icons" style={{color:colors.white}}>add</FontIcon>}
+          label={this.props.label}
+          icon={<FontIcon className="material-icons" style={{color:colors.white}}>{this.props.icon}</FontIcon>}
           backgroundColor={colors.green500}
           labelColor={colors.white}
           onTouchTap={this.handleOpen}
           style={this.props.buttonStyle}
+          disabled={this.props.disabled}
         />
         <Dialog
           title="Create New Graph"
@@ -66,7 +75,7 @@ var NewGraphDialog = React.createClass({
         >
           <p>Do stuff here</p>
         </Dialog>
-      </div>
+      </span>
     )
   }
 })

@@ -5,6 +5,7 @@ import * as colors from 'material-ui/lib/styles/colors'
 import List from 'material-ui/lib/lists/list'
 
 import MantidButton from './MantidButton'
+import NewGraphDialog from './NewGraphDialog'
 import WorkspaceItem from './WorkspaceItem'
 
 var MantidWorkspaces = React.createClass({
@@ -36,6 +37,24 @@ var MantidWorkspaces = React.createClass({
 
     const actionBar = (
       <div>
+        <MantidButton
+          label="Load"
+          icon="cloud_download"
+          style={{marginTop: 10, marginRight: 10}}
+        />
+        <MantidButton
+          label="Save"
+          icon="cloud_upload"
+          style={{marginTop: 10, marginRight: 10}}
+          disabled={this.state.selected.length != 1}
+        />
+        <NewGraphDialog
+          label="Graph"
+          icon="insert_chart"
+          buttonStyle={{marginTop: 10, marginRight: 10}}
+          actions={this.props.actions}
+          disabled={this.state.selected.length != 1}
+        />
         <MantidButton
           label="Rename"
           icon="create"
