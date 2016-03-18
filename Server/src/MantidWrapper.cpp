@@ -48,6 +48,9 @@ json MantidWrapper::GetWorkspaces()
   for(auto it = workspaces.begin(); it != workspaces.end(); ++it)
     wsList[it->first] = GetWorkspaceDetails(it->first);
 
+  //Flush any renames we don't need to worry about anymore
+  m_recentRenames.clear();
+
   return wsList;
 }
 
@@ -75,10 +78,19 @@ json MantidWrapper::GetWorkspaceDetails(const std::string& name)
   {
     //Add children
     auto gws = ads.retrieveWS<Mantid::API::WorkspaceGroup>(name);
-    for(size_t i = 0; i < gws->size(); ++i)
+    std::vector<std::string> names = gws->getNames();
+    for(std::string cname : names)
     {
-      auto cws = gws->getItem(i);
-      wsItem["children"][cws->name()] = GetWorkspaceDetails(cws->name());
+      //If a rename has just happened, the group may not know yet.
+      if(m_recentRenames.find(cname) != m_recentRenames.end())
+      {
+        std::string newName = m_recentRenames[cname];
+        m_recentRenames.erase(cname);
+        cname = newName;
+      }
+
+      auto cws = ads.retrieveWS<Mantid::API::Workspace>(cname);
+      wsItem["children"][cname] = GetWorkspaceDetails(cname);
     }
   }
 
@@ -376,6 +388,12 @@ void MantidWrapper::ReplaceEvent(Mantid::API::WorkspaceAfterReplaceNotification_
 void MantidWrapper::RenameEvent(Mantid::API::WorkspaceRenameNotification_ptr pNf)
 {
   std::cout << "workspace renamed:" << pNf->objectName() << " -> " << pNf->newObjectName() << std::endl;
+
+  //HACK: We log the recent renames so in the next AlgorithmList call, groups
+  //have had their children renamed correctly.
+
+  m_recentRenames[pNf->objectName()] = pNf->newObjectName();
+
   m_renameHandler(pNf->objectName(), pNf->newObjectName());
 }
 

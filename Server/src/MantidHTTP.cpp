@@ -175,7 +175,7 @@ void MantidHTTP::HandleMessage(connection_hdl hdl, const json& js)
   }
   else if(js["type"] == "RENAME_WORKSPACE")
   {
-    //No need to reply, the deletion event tells the clients
+    //No need to reply, the rename event tells the clients
     m_mantid.RenameWorkspace(js["oldName"], js["newName"]);
   }
   else

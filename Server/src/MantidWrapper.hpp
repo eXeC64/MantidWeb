@@ -92,4 +92,7 @@ private:
   std::function<void(int)> m_stopHandler;
   std::function<void(int, double, const std::string&)> m_progressHandler;
   std::function<void(int, const std::string&)> m_errorHandler;
+
+  //Hack to get around mantid notifying us a rename propogates to the groups
+  std::map<std::string, std::string> m_recentRenames;
 };
