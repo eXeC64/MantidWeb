@@ -49,6 +49,21 @@ let actions = {
     }
   },
 
+  deleteWorkspace: function(name) {
+    return {
+      type: 'DELETE_WORKSPACE',
+      workspace: name
+    }
+  },
+
+  renameWorkspace: function(oldName, newName) {
+    return {
+      type: 'RENAME_WORKSPACE',
+      oldName: oldName,
+      newName: newName
+    }
+  },
+
   setProperty: function(alg, prop, value) {
     return {
       type: 'SET_PROPERTY',

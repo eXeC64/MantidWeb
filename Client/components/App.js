@@ -50,6 +50,7 @@ var App = React.createClass({
     const intWorkspaces = (
       <MantidWorkspaces
         workspaces={this.props.workspaces}
+        actions={this.props.actions}
       />
     )
     const intAlgorithms = (

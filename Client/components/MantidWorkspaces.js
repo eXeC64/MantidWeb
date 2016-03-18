@@ -47,6 +47,16 @@ var MantidWorkspaces = React.createClass({
     this.setState({
       infoOpen: false
     })
+  },
+
+  onDelete: function() {
+    this.state.selected.map((name) => {
+      this.props.actions.deleteWorkspace(name);
+    })
+    this.setState({
+      selected: []
+    });
+  },
 
   render: function() {
 
@@ -82,6 +92,7 @@ var MantidWorkspaces = React.createClass({
           style={{marginTop: 10, marginRight: 10}}
           backgroundColor={colors.red900}
           disabled={this.state.selected.length < 1}
+          onTouchTap={this.onDelete}
         />
       </div>
     )
