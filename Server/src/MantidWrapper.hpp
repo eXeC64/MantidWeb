@@ -35,6 +35,9 @@ public:
   bool DeleteAlgorithm(int algorithm);
   bool RunAlgorithm(int algorithm);
 
+  bool DeleteWorkspace(const std::string& name);
+  bool RenameWorkspace(const std::string& name, const std::string& newName);
+
   int CreateHistGraph(const std::string& workspace, const std::string& spectra);
   int Create2DGraph(const std::string& workspace);
   bool DeleteGraph(int graph);

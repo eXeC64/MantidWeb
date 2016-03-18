@@ -306,6 +306,28 @@ bool MantidWrapper::RunAlgorithm(int algorithm)
   return true;
 }
 
+bool MantidWrapper::DeleteWorkspace(const std::string& name)
+{
+  auto& ads = Mantid::API::AnalysisDataService::Instance();
+  if(!ads.doesExist(name))
+    return false;
+
+  ads.remove(name);
+
+  return true;
+}
+
+bool MantidWrapper::RenameWorkspace(const std::string& name, const std::string& newName)
+{
+  auto& ads = Mantid::API::AnalysisDataService::Instance();
+  if(!ads.doesExist(name))
+    return false;
+
+  ads.rename(name, newName);
+
+  return false;
+}
+
 int MantidWrapper::CreateHistGraph(const std::string& workspace, const std::string& spectra)
 {
   return 0;
