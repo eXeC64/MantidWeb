@@ -6,6 +6,7 @@ import List from 'material-ui/lib/lists/list'
 
 import MantidButton from './MantidButton'
 import NewGraphDialog from './NewGraphDialog'
+import RenameWorkspaceDialog from './RenameWorkspaceDialog'
 import WorkspaceDetails from './WorkspaceDetails'
 import WorkspaceItem from './WorkspaceItem'
 
@@ -58,7 +59,15 @@ var MantidWorkspaces = React.createClass({
     });
   },
 
+  onRename: function() {
+    this.setState({
+      selected: []
+    });
+  },
+
   render: function() {
+
+    const firstSelected = (this.state.selected.length > 0) ? this.state.selected[0] : "";
 
     const actionBar = (
       <div>
@@ -80,11 +89,13 @@ var MantidWorkspaces = React.createClass({
           actions={this.props.actions}
           disabled={this.state.selected.length != 1}
         />
-        <MantidButton
-          label="Rename"
-          icon="create"
-          style={{marginTop: 10, marginRight: 10}}
+        <RenameWorkspaceDialog
+          buttonStyle={{marginTop: 10, marginRight: 10}}
+          actions={this.props.actions}
           disabled={this.state.selected.length != 1}
+          oldName={firstSelected}
+          actions={this.props.actions}
+          onRename={this.onRename}
         />
         <MantidButton
           label="Delete"

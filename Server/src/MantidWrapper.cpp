@@ -60,7 +60,7 @@ json MantidWrapper::GetWorkspaceDetails(const std::string& name)
   auto ws = ads.retrieveWS<Mantid::API::Workspace>(name);
 
   json wsItem;
-  wsItem["name"] = ws->name();
+  wsItem["name"] = name;
   wsItem["type"] = ws->id();
   wsItem["title"] = ws->getTitle();
   wsItem["children"] = json::object();
