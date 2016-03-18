@@ -4,6 +4,7 @@ import * as colors from 'material-ui/lib/styles/colors'
 import Checkbox from 'material-ui/lib/checkbox'
 import Divider from 'material-ui/lib/divider'
 import FontIcon from 'material-ui/lib/font-icon'
+import IconButton from 'material-ui/lib/icon-button'
 import RaisedButton from 'material-ui/lib/raised-button'
 import View from 'react-flexbox'
 import ListItem from 'material-ui/lib/lists/list-item'
@@ -36,6 +37,7 @@ var WorkspaceItem = function(props) {
         key: key,
         workspace: props.workspace.children[key],
         onSelect: props.onSelect,
+        onInfo: props.onInfo,
         selected: props.selected
       })
     })
@@ -55,6 +57,11 @@ var WorkspaceItem = function(props) {
             onCheck={() => {props.onSelect(props.workspace.name)}}
             checked={props.selected.includes(props.workspace.name)}
           />
+        )}
+        rightIconButton={(
+          <IconButton onTouchTap={() => {props.onInfo(props.workspace)}}>
+            <FontIcon className="material-icons" style={{color:colors.white}}>info_outline</FontIcon>
+          </IconButton>
         )}
         autoGenerateNestedIndicator={false}
         initiallyOpen={true}

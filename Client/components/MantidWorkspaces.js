@@ -6,13 +6,16 @@ import List from 'material-ui/lib/lists/list'
 
 import MantidButton from './MantidButton'
 import NewGraphDialog from './NewGraphDialog'
+import WorkspaceDetails from './WorkspaceDetails'
 import WorkspaceItem from './WorkspaceItem'
 
 var MantidWorkspaces = React.createClass({
 
   getInitialState: function() {
     return {
-      selected: []
+      selected: [],
+      infoOpen: false,
+      infoWorkspace: {}
     }
   },
 
@@ -32,6 +35,18 @@ var MantidWorkspaces = React.createClass({
       });
     }
   },
+
+  showInfo: function(ws) {
+    this.setState({
+      infoOpen: true,
+      infoWorkspace: ws
+    })
+  },
+
+  hideInfo: function() {
+    this.setState({
+      infoOpen: false
+    })
 
   render: function() {
 
@@ -77,6 +92,7 @@ var MantidWorkspaces = React.createClass({
           key: key,
           workspace: this.props.workspaces[key],
           onSelect: this.toggleSelection,
+          onInfo: this.showInfo,
           selected: this.state.selected
         })
       )
@@ -91,6 +107,11 @@ var MantidWorkspaces = React.createClass({
               {items}
             </List>
           </Card>
+          <WorkspaceDetails
+            open={this.state.infoOpen}
+            workspace={this.state.infoWorkspace}
+            onClose={this.hideInfo}
+          />
         </div>
       )
     } else {
