@@ -211,6 +211,7 @@ void MantidHTTP::Broadcast(const json& js)
 
 void MantidHTTP::OnWorkspaceAdded(const std::string& name)
 {
+  (void)name;
   Broadcast({
       {"type", "WORKSPACE_LIST"},
       {"data", m_mantid.GetWorkspaces()}
@@ -219,6 +220,7 @@ void MantidHTTP::OnWorkspaceAdded(const std::string& name)
 
 void MantidHTTP::OnWorkspaceDeleted(const std::string& name)
 {
+  (void)name;
   Broadcast({
       {"type", "WORKSPACE_LIST"},
       {"data", m_mantid.GetWorkspaces()}
@@ -227,6 +229,7 @@ void MantidHTTP::OnWorkspaceDeleted(const std::string& name)
 
 void MantidHTTP::OnWorkspaceReplaced(const std::string& name)
 {
+  (void)name;
   Broadcast({
       {"type", "WORKSPACE_LIST"},
       {"data", m_mantid.GetWorkspaces()}
@@ -235,6 +238,8 @@ void MantidHTTP::OnWorkspaceReplaced(const std::string& name)
 
 void MantidHTTP::OnWorkspaceRenamed(const std::string& oldName, const std::string& newName)
 {
+  (void)oldName;
+  (void)newName;
   Broadcast({
       {"type", "WORKSPACE_LIST"},
       {"data", m_mantid.GetWorkspaces()}
