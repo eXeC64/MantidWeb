@@ -1,14 +1,24 @@
 
 export default function reducer(state, action) {
   switch(action.type) {
+
     case 'MANTID_CONNECTION':
-      return Object.assign({}, state, {status: action.status} )
+      return {
+        ...state,
+        status: action.status
+      }
 
     case 'USABLE_ALGORITHMS':
-      return Object.assign({}, state, {usable_algorithms: action.data})
+      return {
+        ...state,
+        usable_algorithms: action.data
+      }
 
     case 'ALGORITHM_LIST':
-      return Object.assign({}, state, {algorithms: action.data})
+      return {
+        ...state,
+        algorithms: action.data
+      }
 
     case 'WORKSPACE_LIST':
       return {
@@ -17,8 +27,13 @@ export default function reducer(state, action) {
       }
 
     case 'ALGORITHM_DETAILS':
-      const algs = Object.assign({}, state.algorithms, {[action.data.id]: action.data})
-      return Object.assign({}, state, {algorithms: algs})
+      return {
+        ...state,
+        algorithms: {
+          ...state.algorithms,
+          [action.data.id]: action.data
+        }
+      }
 
     case 'ALGORITHM_DELETED':
       const deleted_algs = Object.assign({}, state.algorithms);
