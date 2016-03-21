@@ -69,13 +69,17 @@ var MantidWorkspaces = React.createClass({
 
     const firstSelected = (this.state.selected.length > 0) ? this.state.selected[0] : "";
 
+    const loadButton = (
+      <MantidButton
+        label="Load"
+        icon="cloud_download"
+        style={{marginTop: 10, marginRight: 10}}
+      />
+    )
+
     const actionBar = (
       <div>
-        <MantidButton
-          label="Load"
-          icon="cloud_download"
-          style={{marginTop: 10, marginRight: 10}}
-        />
+        {loadButton}
         <MantidButton
           label="Save"
           icon="cloud_upload"
@@ -138,18 +142,21 @@ var MantidWorkspaces = React.createClass({
       )
     } else {
       return (
-        <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
-          <CardTitle
-            title="No Workspaces"
-          />
-          <CardText>
-            <p>
-              You have not created any workspaces yet.
-              You can load your data using the button above, or create a
-              workspace using an algorithm.
-            </p>
-          </CardText>
-        </Card>
+        <div>
+          {loadButton}
+          <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
+            <CardTitle
+              title="No Workspaces"
+            />
+            <CardText>
+              <p>
+                You have not created any workspaces yet.
+                You can load your data using the button above, or create a
+                workspace using an algorithm.
+              </p>
+            </CardText>
+          </Card>
+        </div>
       )
     }
   }
