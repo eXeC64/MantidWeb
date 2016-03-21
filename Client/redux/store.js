@@ -3,7 +3,15 @@ import thunk from 'redux-thunk'
 import reducer from './reducer'
 import socketMiddleware from './socket'
 
-export default function configureStore(initialState = {todos: []}) {
+const defaultState = {
+  status: 'disconnected',
+  workspaces: {},
+  algorithms: {},
+  usable_algorithms: [],
+  graphs: {}
+}
+
+export default function configureStore(initialState = defaultState) {
   return createStore(reducer, initialState,
       applyMiddleware(thunk, socketMiddleware)
   )

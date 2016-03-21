@@ -11,16 +11,7 @@ import { Provider } from 'react-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin();
 
-
-let initialState = {
-  status: 'disconnected',
-  workspaces: {},
-  algorithms: {},
-  usable_algorithms: [],
-  graphs: {}
-}
-
-let store = configureStore(initialState)
+let store = configureStore()
 
 render(
     <Provider store={store}>
