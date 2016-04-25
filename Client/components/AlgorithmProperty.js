@@ -26,7 +26,7 @@ var AlgorithmProperty = React.createClass({
 
   componentWillReceiveProps: function(props) {
     if(props.property.value != this.state.value) {
-      this.setState({value: this.props.property.value});
+      this.setState({value: props.property.value});
     }
   },
 

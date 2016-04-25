@@ -17,7 +17,6 @@ Issues / Todo
 -------------
 
 * Opening the list of available algorithms is very slow
-* Algorithm properties don't synchronise between clients properly (other clients receive new value, but don't immediately update interface)
 * Graphs interface is unfinished
   * Need a way to create/destroy graphs and set properties (colors, labels) on them
   * Need a way to fetch data required to render a graph client-side
