@@ -52,6 +52,17 @@ var NewAlgorithmDialog = React.createClass({
       />
     ]
 
+    const items = Object.keys(this.props.algorithms).map((key) => {
+      var alg = this.props.algorithms[key];
+        return (
+          <MenuItem
+            value={key}
+            key={key}
+            primaryText={alg.name+"-v"+alg.version}
+          />
+        )
+    });
+
     return (
       <div>
         <RaisedButton
@@ -72,24 +83,13 @@ var NewAlgorithmDialog = React.createClass({
         >
           <p>Please select an algorithm to create.</p>
           <SelectField
-            autoWidth={true}
+            fullWidth={true}
             maxHeight={500}
             value={this.state.value}
             onChange={this.handleSelect}
             floatingLabelText="Algorithm"
           >
-            {
-              Object.keys(this.props.algorithms).map((key) => {
-                var alg = this.props.algorithms[key]
-                return (
-                  <MenuItem
-                    value={key}
-                    key={key}
-                    primaryText={alg.name+"-v"+alg.version}
-                  />
-                )
-              })
-            }
+            {items}
           </SelectField>
         </Dialog>
       </div>
