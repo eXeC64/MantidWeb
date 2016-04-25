@@ -144,7 +144,7 @@ var MantidWorkspaces = React.createClass({
       return (
         <div>
           {loadButton}
-          <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
+          <Card zDepth={3} style={{margin: "auto", marginTop: 10, padding: 30, width: 600}}>
             <CardTitle
               title="No Workspaces"
             />
