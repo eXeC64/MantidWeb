@@ -45,6 +45,12 @@ var AlgorithmProperty = React.createClass({
     this.props.onChange(this.props.property.name, value);
   },
 
+  handleToggle: function(event, value) {
+    var newVal = value ? "1" : "0";
+    this.setState({value: newVal});
+    this.props.onChange(this.props.property.name, newVal);
+  },
+
   render: function() {
 
     const booleanEditor = (
@@ -52,6 +58,7 @@ var AlgorithmProperty = React.createClass({
         label={this.props.property.name}
         style={{marginTop: 40}}
         defaultToggled={this.props.property.value === "1"}
+        onToggle={this.handleToggle}
       />
     );
 

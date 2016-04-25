@@ -26,4 +26,3 @@ Issues / Todo
   * Let data directories be specified on the server (via command line option)
   * Provide way for client to view contents of data directories
   * Provide interface to load/save workspaces to these directories
-* Boolean algorithm properties are not updated on the server
