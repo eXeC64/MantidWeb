@@ -3,8 +3,6 @@ import React from 'react'
 import * as colors from 'material-ui/lib/styles/colors'
 import Dialog from 'material-ui/lib/dialog'
 import FontIcon from 'material-ui/lib/font-icon'
-import MenuItem from 'material-ui/lib/menus/menu-item'
-import SelectField from 'material-ui/lib/SelectField'
 import RaisedButton from 'material-ui/lib/raised-button'
 
 var NewAlgorithmDialog = React.createClass({
@@ -24,8 +22,8 @@ var NewAlgorithmDialog = React.createClass({
     this.setState({open: false})
   },
 
-  handleSelect: function(event, index, value) {
-    this.setState({value: value})
+  handleSelect: function(event) {
+    this.setState({value: event.target.value})
   },
 
   handleSubmit: function() {
@@ -52,15 +50,18 @@ var NewAlgorithmDialog = React.createClass({
       />
     ]
 
-    const items = Object.keys(this.props.algorithms).map((key) => {
-      var alg = this.props.algorithms[key];
-        return (
-          <MenuItem
-            value={key}
-            key={key}
-            primaryText={alg.name+"-v"+alg.version}
-          />
-        )
+    const selectStyle = {
+      borderRadius: "1em",
+      padding: "0.5em",
+      backgroundColor: colors.green100,
+      border: 0,
+      fontSize: "1.25em"
+    }
+
+    var i = 0;
+    var options = Object.keys(this.props.algorithms).map((key) => {
+      const name = this.props.algorithms[key].name + "-v" + this.props.algorithms[key].version;
+      return <option value={i++}>{name}</option>
     });
 
     return (
@@ -82,15 +83,13 @@ var NewAlgorithmDialog = React.createClass({
           onRequestClose={this.handleClose}
         >
           <p>Please select an algorithm to create.</p>
-          <SelectField
-            fullWidth={true}
-            maxHeight={500}
-            value={this.state.value}
+          <select
+            style={selectStyle}
             onChange={this.handleSelect}
-            floatingLabelText="Algorithm"
+            value={this.state.value}
           >
-            {items}
-          </SelectField>
+            {options}
+          </select>
         </Dialog>
       </div>
     )

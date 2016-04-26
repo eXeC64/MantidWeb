@@ -16,7 +16,6 @@ Client uses `npm` to manage dependencies and build. Local test server can be run
 Issues / Todo
 -------------
 
-* Opening the list of available algorithms is very slow
 * Graphs interface is unfinished
   * Need a way to create/destroy graphs and set properties (colors, labels) on them
   * Need a way to fetch data required to render a graph client-side
