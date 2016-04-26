@@ -61,7 +61,7 @@ var NewAlgorithmDialog = React.createClass({
     var i = 0;
     var options = Object.keys(this.props.algorithms).map((key) => {
       const name = this.props.algorithms[key].name + "-v" + this.props.algorithms[key].version;
-      return <option value={i++}>{name}</option>
+      return <option key={key} value={i++}>{name}</option>
     });
 
     return (
@@ -77,7 +77,6 @@ var NewAlgorithmDialog = React.createClass({
         <Dialog
           title="Create New Algorithm"
           actions={actions}
-          modal={false}
           open={this.state.open}
           onTouchTap={this.handleClose}
           onRequestClose={this.handleClose}
