@@ -48,8 +48,6 @@ var FileDialog = React.createClass({
   },
 
   handleSubmit: function() {
-    var alg = this.props.algorithms[this.state.value];
-    this.props.actions.createAlgorithm(alg.name, alg.version);
     this.setState({open: false})
   },
 
