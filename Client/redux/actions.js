@@ -78,6 +78,12 @@ let actions = {
       type: 'RUN_ALGORITHM',
       id: id
     }
+  },
+
+  refreshFiles: function() {
+    return {
+      type: 'REFRESH_FILES'
+    }
   }
 
 }

@@ -86,6 +86,24 @@ export default function reducer(state, action) {
         }
       }
 
+    case 'REFRESH_FILES':
+      return {
+        ...state,
+        files: {
+          status: "refreshing",
+          list: []
+        }
+      }
+
+    case 'DIRECTORY_CONTENTS':
+      return {
+        ...state,
+        files: {
+          status: "ready",
+          list: action.data
+        }
+      }
+
     default:
       return state
   }

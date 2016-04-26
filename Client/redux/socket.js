@@ -30,6 +30,7 @@ const socketMiddleware = (function(){
       case "ALGORITHM_DELETED":
       case "PROPERTY_UPDATED":
       case "ALGORITHM_STATE":
+      case "DIRECTORY_CONTENTS":
         store.dispatch(msg);
         break;
       default:
@@ -67,6 +68,11 @@ const socketMiddleware = (function(){
       case 'RUN_ALGORITHM':
         socket.send(JSON.stringify(action));
         break;
+
+      case 'REFRESH_FILES':
+        //Tell the server, then dispatch to store
+        socket.send(JSON.stringify({type: "GET_DIRECTORY_CONTENTS"}));
+        return next(action);
 
       default:
         return next(action);
