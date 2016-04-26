@@ -86,7 +86,7 @@ var RenameWorkspaceDialog = React.createClass({
             value={this.state.newName}
             hintText="new name"
             onChange={this.handleChange}
-            onEnterKeyDown={(this.state.newName.length > 0) ? this.handleSubmit : {}}
+            onEnterKeyDown={(this.state.newName.length > 0) ? this.handleSubmit : function(){}}
           />
         </Dialog>
       </span>
