@@ -7,6 +7,7 @@ int main()
 {
   MantidHTTP mantid;
   mantid.SetAuthToken("changeme");
+  mantid.SetDataPath("/home/harry");
 
   try
   {

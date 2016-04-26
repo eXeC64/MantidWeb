@@ -24,6 +24,7 @@ public:
 
   void Run();
   void SetAuthToken(const std::string& token);
+  void SetDataPath(const std::string& path);
   void SetPort(int port);
 
 private:
@@ -38,6 +39,9 @@ private:
 
   void Send(websocketpp::connection_hdl hdl, const json& js);
   void Broadcast(const json& js);
+
+  //Data directory functionality
+  json GetDirectoryContents();
 
   //Callbacks
   void OnWorkspaceAdded(const std::string& name);
@@ -62,6 +66,9 @@ private:
 
   // Authentication token
   std::string m_token;
+
+  // Data directory
+  std::string m_dataPath;
 
   // Mantid wrapper
   MantidWrapper m_mantid;

@@ -14,6 +14,7 @@ CXXFLAGS = -W -Wall -std=c++11 \
 LDFLAGS = \
 	-L $(MANTID_BIN) \
 	-lboost_system \
+	-lboost_filesystem \
 	-lboost_regex \
 	-lMantidKernel \
 	-lMantidGeometry \

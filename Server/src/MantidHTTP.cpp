@@ -1,5 +1,9 @@
 #include "MantidHTTP.hpp"
 
+#include "boost/filesystem/operations.hpp"
+#include "boost/filesystem/path.hpp"
+namespace fs = boost::filesystem;
+
 using websocketpp::connection_hdl;
 
 MantidHTTP::MantidHTTP()
@@ -82,6 +86,11 @@ void MantidHTTP::OnMessage(connection_hdl hdl,
 void MantidHTTP::SetAuthToken(const std::string& token)
 {
   m_token = token;
+}
+
+void MantidHTTP::SetDataPath(const std::string& path)
+{
+  m_dataPath = path;
 }
 
 void MantidHTTP::HandleMessage(connection_hdl hdl, const json& js)
@@ -178,6 +187,13 @@ void MantidHTTP::HandleMessage(connection_hdl hdl, const json& js)
     //No need to reply, the rename event tells the clients
     m_mantid.RenameWorkspace(js["oldName"], js["newName"]);
   }
+  else if(js["type"] == "GET_DIRECTORY_CONTENTS")
+  {
+    Send(hdl, {
+        {"type", "DIRECTORY_CONTENTS"},
+        {"data", GetDirectoryContents()}
+    });
+  }
   else
   {
     Send(hdl, {{"type","ERROR"}, {"error", "unsupported type"}});
@@ -208,6 +224,58 @@ void MantidHTTP::Broadcast(const json& js)
   for(auto it = m_clients.begin(); it != m_clients.end(); ++it)
     Send(it->first, js);
 }
+
+json MantidHTTP::GetDirectoryContents()
+{
+  json ret = json::array();
+  if(m_dataPath.empty())
+    return ret;
+
+  fs::path path = fs::system_complete(fs::path(m_dataPath));
+
+  if(!fs::exists(path))
+  {
+    std::cerr << "Invalid data directory: " << m_dataPath << std::endl;
+    return ret;
+  }
+
+  for(auto fIt = fs::directory_iterator(path); fIt != fs::directory_iterator(); ++fIt)
+  {
+    fs::path itemPath = fIt->path();
+
+    //Skil empty paths
+    if(itemPath.empty())
+      continue;
+
+    //Skip hidden files
+    if(itemPath.filename().string()[0] == '.')
+      continue;
+
+    try
+    {
+      if(fs::is_directory(itemPath))
+      {
+        json item;
+        item["name"] = itemPath.filename().string();
+        item["type"] = "directory";
+        ret.push_back(std::move(item));
+      }
+      else if(fs::is_regular_file(itemPath))
+      {
+        json item;
+        item["name"] = itemPath.filename().string();
+        item["type"] = "file";
+        ret.push_back(std::move(item));
+      }
+    }
+    catch(const std::exception &e)
+    {
+      std::cerr << "Error traversing data directory: " << e.what() << std::endl;
+    }
+  }
+  return ret;
+}
+
 
 void MantidHTTP::OnWorkspaceAdded(const std::string& name)
 {
