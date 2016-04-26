@@ -108,7 +108,12 @@ json MantidWrapper::GetUsableAlgorithms()
 
   for(auto& desc : algDescs)
   {
+    //Don't offer blacklisted algorithms
+    if(IsAlgorithmBlacklisted(desc.name))
+      continue;
+
     std::string key = desc.name + "-v" + std::to_string(desc.version);
+
     if(seen.find(key) != seen.end())
       continue;
 
@@ -226,6 +231,13 @@ json MantidWrapper::GetGraphData(int graph)
 
 int MantidWrapper::CreateAlgorithm(const std::string& name, int version)
 {
+  if(IsAlgorithmBlacklisted(name))
+  {
+    std::cerr << "User attempted to create blacklisted algorithm. This should "
+                 "never happen. Algorithm: " << name << std::endl;
+    return 0;
+  }
+
   auto& algMgr = Mantid::API::AlgorithmManager::Instance();
 
   try
@@ -365,6 +377,26 @@ int MantidWrapper::NewAlgorithmId()
     ++id;
   }
   return id;
+}
+
+bool MantidWrapper::IsAlgorithmBlacklisted(const std::string& name) const
+{
+  //block all load algorithms
+  if(name.find("Load") == 0)
+    return true;
+
+  //block all save algorithms
+  if(name.find("Save") == 0)
+    return true;
+
+  //there's a couple of algorithms for importing data from disk
+  if(name.find("Import") == 0)
+    return true;
+
+  //only algorithm with Export at the start of its name exports to a workspace,
+  //so it doesn't need blacklisting
+
+  return false;
 }
 
 void MantidWrapper::DeleteEvent(Mantid::API::WorkspacePreDeleteNotification_ptr pNf)

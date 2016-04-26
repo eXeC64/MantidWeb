@@ -58,6 +58,7 @@ private:
   std::map<int,std::unique_ptr<CallbackAlgorithmObserver>> m_algObservers;
 
   int NewAlgorithmId();
+  bool IsAlgorithmBlacklisted(const std::string& name) const;
 
   ///// The following is boilerplate to deal with event callbacks/handlers
 
