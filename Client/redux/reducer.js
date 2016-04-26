@@ -1,8 +1,27 @@
 
-export default function reducer(state, action) {
+export const defaultState = {
+  status: 'disconnected',
+  workspaces: {},
+  algorithms: {},
+  usable_algorithms: [],
+  graphs: {},
+  files: {
+    status: "refreshing",
+    list: []
+  }
+}
+
+export function reducer(state, action) {
+
   switch(action.type) {
 
+    case 'RESET_MANTIDWEB':
+      return defaultState;
+
     case 'MANTID_CONNECTION':
+      if(action.status === "disconnected")
+        return defaultState;
+
       return {
         ...state,
         status: action.status
