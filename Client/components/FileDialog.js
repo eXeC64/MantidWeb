@@ -25,11 +25,12 @@ var FileDialog = React.createClass({
   },
 
   handleOpen: function() {
-    this.setState({open: true})
+    this.props.actions.refreshFiles();
+    this.setState({open: true});
   },
 
   handleClose: function() {
-    this.setState({open: false})
+    this.setState({open: false});
   },
 
   handleRefresh: function() {

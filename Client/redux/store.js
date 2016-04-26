@@ -8,7 +8,11 @@ const defaultState = {
   workspaces: {},
   algorithms: {},
   usable_algorithms: [],
-  graphs: {}
+  graphs: {},
+  files: {
+    status: "refreshing",
+    list: []
+  }
 }
 
 export default function configureStore(initialState = defaultState) {
