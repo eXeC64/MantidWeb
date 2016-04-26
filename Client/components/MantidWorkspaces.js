@@ -9,6 +9,7 @@ import NewGraphDialog from './NewGraphDialog'
 import RenameWorkspaceDialog from './RenameWorkspaceDialog'
 import WorkspaceDetails from './WorkspaceDetails'
 import WorkspaceItem from './WorkspaceItem'
+import FileDialog from './FileDialog'
 
 var MantidWorkspaces = React.createClass({
 
@@ -70,22 +71,28 @@ var MantidWorkspaces = React.createClass({
     const firstSelected = (this.state.selected.length > 0) ? this.state.selected[0] : "";
 
     const loadButton = (
-      <MantidButton
-        label="Load"
-        icon="cloud_download"
-        style={{marginTop: 10, marginRight: 10}}
-      />
+        <FileDialog
+          action="load"
+          actions={this.props.actions}
+          buttonStyle={{marginTop: 10, marginRight: 10}}
+          files={this.props.files}
+        />
+    )
+
+    const saveButton = (
+        <FileDialog
+          action="save"
+          actions={this.props.actions}
+          buttonStyle={{marginTop: 10, marginRight: 10}}
+          disabled={this.state.selected.length != 1}
+          files={this.props.files}
+        />
     )
 
     const actionBar = (
       <div>
         {loadButton}
-        <MantidButton
-          label="Save"
-          icon="cloud_upload"
-          style={{marginTop: 10, marginRight: 10}}
-          disabled={this.state.selected.length != 1}
-        />
+        {saveButton}
         <NewGraphDialog
           label="Graph"
           icon="insert_chart"
