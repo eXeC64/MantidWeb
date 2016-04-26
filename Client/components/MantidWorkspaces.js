@@ -135,7 +135,7 @@ var MantidWorkspaces = React.createClass({
       return (
         <div>
           {actionBar}
-          <Card zDepth={2} style={{marginTop: 10, width: 750}}>
+          <Card key="workspaces" zDepth={2} style={{marginTop: 10, width: 750}}>
             <List subheader="Workspaces">
               {items}
             </List>
@@ -151,7 +151,7 @@ var MantidWorkspaces = React.createClass({
       return (
         <div>
           {loadButton}
-          <Card zDepth={3} style={{margin: "auto", marginTop: 10, padding: 30, width: 600}}>
+          <Card key="no-workspaces" zDepth={3} style={{margin: "auto", marginTop: 10, padding: 30, width: 600}}>
             <CardTitle
               title="No Workspaces"
             />
