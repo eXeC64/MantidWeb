@@ -187,6 +187,22 @@ void MantidHTTP::HandleMessage(connection_hdl hdl, const json& js)
     //No need to reply, the rename event tells the clients
     m_mantid.RenameWorkspace(js["oldName"], js["newName"]);
   }
+  else if(js["type"] == "LOAD_WORKSPACE")
+  {
+    fs::path path = fs::system_complete(fs::path(m_dataPath)) / fs::path(js["path"].get<std::string>());
+    if(!m_mantid.LoadWorkspace(js["workspace"], path.string()))
+    {
+      Send(hdl, {{"type","ERROR"}, {"error", "error loading workspace"}});
+    }
+  }
+  else if(js["type"] == "SAVE_WORKSPACE")
+  {
+    fs::path path = fs::system_complete(fs::path(m_dataPath)) / fs::path(js["path"].get<std::string>());
+    if(!m_mantid.SaveWorkspace(js["workspace"], path.string()))
+    {
+      Send(hdl, {{"type","ERROR"}, {"error", "error saving workspace"}});
+    }
+  }
   else if(js["type"] == "GET_DIRECTORY_CONTENTS")
   {
     Send(hdl, {

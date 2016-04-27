@@ -79,20 +79,17 @@ var MantidWorkspaces = React.createClass({
         />
     )
 
-    const saveButton = (
+    const actionBar = (
+      <div>
+        {loadButton}
         <FileDialog
           action="save"
+          workspace={this.state.selected.length == 1 ? this.state.selected[0] : ""}
           actions={this.props.actions}
           buttonStyle={{marginTop: 10, marginRight: 10}}
           disabled={this.state.selected.length != 1}
           files={this.props.files}
         />
-    )
-
-    const actionBar = (
-      <div>
-        {loadButton}
-        {saveButton}
         <NewGraphDialog
           label="Graph"
           icon="insert_chart"

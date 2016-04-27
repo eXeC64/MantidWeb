@@ -37,6 +37,8 @@ public:
 
   bool DeleteWorkspace(const std::string& name);
   bool RenameWorkspace(const std::string& name, const std::string& newName);
+  bool LoadWorkspace(const std::string& name, const std::string& path);
+  bool SaveWorkspace(const std::string& name, const std::string& path);
 
   int CreateHistGraph(const std::string& workspace, const std::string& spectra);
   int Create2DGraph(const std::string& workspace);

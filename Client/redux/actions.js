@@ -64,6 +64,22 @@ let actions = {
     }
   },
 
+  loadWorkspace: function(name, path) {
+    return {
+      type: "LOAD_WORKSPACE",
+      workspace: name,
+      path: path
+    }
+  },
+
+  saveWorkspace: function(name, path) {
+    return {
+      type: "SAVE_WORKSPACE",
+      workspace: name,
+      path: path
+    }
+  },
+
   setProperty: function(alg, prop, value) {
     return {
       type: 'SET_PROPERTY',

@@ -64,6 +64,8 @@ const socketMiddleware = (function(){
       case 'DELETE_ALGORITHM':
       case 'DELETE_WORKSPACE':
       case 'RENAME_WORKSPACE':
+      case 'LOAD_WORKSPACE':
+      case 'SAVE_WORKSPACE':
       case 'SET_PROPERTY':
       case 'RUN_ALGORITHM':
         socket.send(JSON.stringify(action));

@@ -352,6 +352,51 @@ bool MantidWrapper::RenameWorkspace(const std::string& name, const std::string& 
   return false;
 }
 
+bool MantidWrapper::LoadWorkspace(const std::string& name, const std::string& path)
+{
+  auto& algMgr = Mantid::API::AlgorithmManager::Instance();
+
+  try
+  {
+    auto alg = algMgr.create("Load");
+    alg->initialize();
+    alg->setAlwaysStoreInADS(true);
+    alg->setProperty("Filename", path);
+    alg->setProperty("OutputWorkspace", name);
+    alg->execute();
+
+    return true;
+  }
+  catch(std::exception &e)
+  {
+    std::cerr << "Error loading file: " << path << std::endl;
+    std::cerr << e.what() << std::endl;
+  }
+  return false;
+}
+
+bool MantidWrapper::SaveWorkspace(const std::string& name, const std::string& path)
+{
+  auto& algMgr = Mantid::API::AlgorithmManager::Instance();
+
+  try
+  {
+    auto alg = algMgr.create("SaveNexus");
+    alg->initialize();
+    alg->setProperty("Filename", path);
+    alg->setProperty("InputWorkspace", name);
+    alg->execute();
+
+    return true;
+  }
+  catch(std::exception &e)
+  {
+    std::cerr << "Error saving file: " << path << std::endl;
+    std::cerr << e.what() << std::endl;
+  }
+  return false;
+}
+
 int MantidWrapper::CreateHistGraph(const std::string& workspace, const std::string& spectra)
 {
   return 0;

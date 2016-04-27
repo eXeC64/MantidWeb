@@ -13,13 +13,14 @@ var FileDialog = React.createClass({
     return {
       open: false,
       path: "",
+      workspace: "", //For loading: the name of the workspace to create
     }
   },
 
   getDefaultProps: function() {
     return {
+      workspace: "", //For saving, the workspace we're saving to disk
       action: "load",
-      defaultPath: "",
       buttonStyle: {}
     }
   },
@@ -43,11 +44,20 @@ var FileDialog = React.createClass({
     this.setState({path: value});
   },
 
-  handleEdit: function(event) {
+  handleEditPath: function(event) {
     this.setState({path: event.target.value});
   },
 
+  handleEditName: function(event) {
+    this.setState({workspace: event.target.value});
+  },
+
   handleSubmit: function() {
+    if(this.props.action == "load") {
+      this.props.actions.loadWorkspace(this.state.workspace, this.state.path);
+    } else if(this.props.action == "save") {
+      this.props.actions.saveWorkspace(this.props.workspace, this.state.path);
+    }
     this.setState({open: false})
   },
 
@@ -55,7 +65,7 @@ var FileDialog = React.createClass({
 
     const actionLabel = this.props.action == "load" ? "Load" : "Save";
     const icon = this.props.action == "load" ? "cloud_download" : "cloud_upload";
-    const actionDisabled = this.state.path.length == 0
+    const actionDisabled = this.state.path.length == 0 || (this.props.action == "load" && this.state.workspace.length == 0);
 
     const actions = [
       <RaisedButton
@@ -73,9 +83,16 @@ var FileDialog = React.createClass({
       <TextField
         floatingLabelText="Filename"
         value={this.state.path}
-        onChange={this.handleEdit}
+        onChange={this.handleEditPath}
         style={{marginLeft: "25px", marginRight: "5px"}}
         disabled={this.props.action == "load"}
+      />,
+      <TextField
+        floatingLabelText="Workspace"
+        value={this.props.action == "load" ? this.state.workspace : this.props.workspace}
+        onChange={this.handleEditName}
+        style={{marginLeft: "25px", marginRight: "5px"}}
+        disabled={this.props.action == "save"}
       />,
       <RaisedButton
         label={actionLabel}
