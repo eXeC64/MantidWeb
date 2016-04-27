@@ -31,7 +31,7 @@ var MantidAlgorithms = React.createClass({
       algList.push(<View column key="spacer" />)
     } else {
       algList = (
-        <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
+        <Card zDepth={3} style={{marginTop: 10, padding: 30, width: 600}}>
           <CardTitle
             title="No Algorithm Instances"
           />

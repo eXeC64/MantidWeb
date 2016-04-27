@@ -24,7 +24,7 @@ var MantidGraphs = React.createClass({
       graphList.push(<View column key="spacer" />)
     } else {
       graphList = (
-        <Card zDepth={3} style={{margin: "auto", padding: 30, width: 600}}>
+        <Card zDepth={3} style={{marginTop: 10, padding: 30, width: 600}}>
           <CardTitle
             title="No Graphs"
           />

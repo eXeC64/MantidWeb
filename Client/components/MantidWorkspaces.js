@@ -70,18 +70,14 @@ var MantidWorkspaces = React.createClass({
 
     const firstSelected = (this.state.selected.length > 0) ? this.state.selected[0] : "";
 
-    const loadButton = (
+    const actionBar = (
+      <div>
         <FileDialog
           action="load"
           actions={this.props.actions}
           buttonStyle={{marginTop: 10, marginRight: 10}}
           files={this.props.files}
         />
-    )
-
-    const actionBar = (
-      <div>
-        {loadButton}
         <FileDialog
           action="save"
           workspace={this.state.selected.length == 1 ? this.state.selected[0] : ""}
@@ -147,8 +143,8 @@ var MantidWorkspaces = React.createClass({
     } else {
       return (
         <div>
-          {loadButton}
-          <Card key="no-workspaces" zDepth={3} style={{margin: "auto", marginTop: 10, padding: 30, width: 600}}>
+          {actionBar}
+          <Card key="no-workspaces" zDepth={3} style={{marginTop: 10, padding: 30, width: 600}}>
             <CardTitle
               title="No Workspaces"
             />
