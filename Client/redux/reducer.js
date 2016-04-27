@@ -8,7 +8,8 @@ export const defaultState = {
   files: {
     status: "refreshing",
     list: []
-  }
+  },
+  curves: {}
 }
 
 export function reducer(state, action) {
@@ -121,6 +122,13 @@ export function reducer(state, action) {
           status: "ready",
           list: action.data
         }
+      }
+
+    case 'CURVE_LIST':
+      //TODO - be smarter
+      return {
+        ...state,
+        curves: action.data
       }
 
     default:

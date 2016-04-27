@@ -219,12 +219,40 @@ json MantidWrapper::GetAlgorithmProperties(int algorithm)
   return props;
 }
 
-json MantidWrapper::GetGraphDetails(int graph)
+json MantidWrapper::GetCurves()
 {
-  return json::object();
+  json curveList = json::object();
+
+  auto& ads = Mantid::API::AnalysisDataService::Instance();
+  const auto& workspaces = ads.topLevelItems();
+  for(auto it = workspaces.begin(); it != workspaces.end(); ++it)
+  {
+    Mantid::API::Workspace_sptr ws = it->second;
+
+    if(ws->id() == "Workspace2D")
+    {
+      auto ws2D = ads.retrieveWS<Mantid::DataObjects::Workspace2D>(it->first);
+      const int numHist = ws2D->getNumberHistograms();
+      const int numBins = ws2D->blocksize();
+      for(int i = 0; i < numHist; ++i)
+      {
+        const std::string name = it->first + "-" + std::to_string(i);
+        json item;
+        item["name"] = name;
+        item["workspace"] = it->first;
+        item["description"] = it->first + " Spectra " + std::to_string(i);
+        item["numBins"] = numBins;
+
+        curveList[name] = std::move(item);
+      }
+    }
+    //TODO deal with id == WorkspaceGroup
+  }
+
+  return curveList;
 }
 
-json MantidWrapper::GetGraphData(int graph)
+json MantidWrapper::GetCurveData(const std::string& name)
 {
   return json::object();
 }
@@ -394,21 +422,6 @@ bool MantidWrapper::SaveWorkspace(const std::string& name, const std::string& pa
     std::cerr << "Error saving file: " << path << std::endl;
     std::cerr << e.what() << std::endl;
   }
-  return false;
-}
-
-int MantidWrapper::CreateHistGraph(const std::string& workspace, const std::string& spectra)
-{
-  return 0;
-}
-
-int MantidWrapper::Create2DGraph(const std::string& workspace)
-{
-  return 0;
-}
-
-bool MantidWrapper::DeleteGraph(int graph)
-{
   return false;
 }
 

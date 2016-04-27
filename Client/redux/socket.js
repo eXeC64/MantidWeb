@@ -21,6 +21,7 @@ const socketMiddleware = (function(){
           ws.send(JSON.stringify({type: "GET_USABLE_ALGORITHMS"}));
           ws.send(JSON.stringify({type: "GET_ALGORITHM_LIST"}));
           ws.send(JSON.stringify({type: "GET_WORKSPACE_LIST"}));
+          ws.send(JSON.stringify({type: "GET_CURVE_LIST"}));
         }
         break;
       case "WORKSPACE_LIST":
@@ -31,6 +32,7 @@ const socketMiddleware = (function(){
       case "PROPERTY_UPDATED":
       case "ALGORITHM_STATE":
       case "DIRECTORY_CONTENTS":
+      case "CURVE_LIST":
         store.dispatch(msg);
         break;
       default:

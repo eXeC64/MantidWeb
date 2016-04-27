@@ -210,6 +210,13 @@ void MantidHTTP::HandleMessage(connection_hdl hdl, const json& js)
         {"data", GetDirectoryContents()}
     });
   }
+  else if(js["type"] == "GET_CURVE_LIST")
+  {
+    Send(hdl, {
+        {"type", "CURVE_LIST"},
+        {"data", m_mantid.GetCurves()}
+    });
+  }
   else
   {
     Send(hdl, {{"type","ERROR"}, {"error", "unsupported type"}});
@@ -300,6 +307,10 @@ void MantidHTTP::OnWorkspaceAdded(const std::string& name)
       {"type", "WORKSPACE_LIST"},
       {"data", m_mantid.GetWorkspaces()}
   });
+  Broadcast({
+      {"type", "CURVE_LIST"},
+      {"data", m_mantid.GetCurves()}
+  });
 }
 
 void MantidHTTP::OnWorkspaceDeleted(const std::string& name)
@@ -308,6 +319,10 @@ void MantidHTTP::OnWorkspaceDeleted(const std::string& name)
   Broadcast({
       {"type", "WORKSPACE_LIST"},
       {"data", m_mantid.GetWorkspaces()}
+  });
+  Broadcast({
+      {"type", "CURVE_LIST"},
+      {"data", m_mantid.GetCurves()}
   });
 }
 
@@ -318,6 +333,7 @@ void MantidHTTP::OnWorkspaceReplaced(const std::string& name)
       {"type", "WORKSPACE_LIST"},
       {"data", m_mantid.GetWorkspaces()}
   });
+  //TODO send out CURVE_UPDATED messages (or a CURVE_LIST with some flag set to flush cache?)
 }
 
 void MantidHTTP::OnWorkspaceRenamed(const std::string& oldName, const std::string& newName)
@@ -328,6 +344,10 @@ void MantidHTTP::OnWorkspaceRenamed(const std::string& oldName, const std::strin
       {"type", "WORKSPACE_LIST"},
       {"data", m_mantid.GetWorkspaces()}
   });
+  Broadcast({
+      {"type", "CURVE_LIST"},
+      {"data", m_mantid.GetCurves()}
+  });
 }
 
 void MantidHTTP::OnWorkspacesCleared()
@@ -335,6 +355,10 @@ void MantidHTTP::OnWorkspacesCleared()
   Broadcast({
       {"type", "WORKSPACE_LIST"},
       {"data", json::object()}
+  });
+  Broadcast({
+      {"type", "CURVE_LIST"},
+      {"data", m_mantid.GetCurves()}
   });
 }
 
