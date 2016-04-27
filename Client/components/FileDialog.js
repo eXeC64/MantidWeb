@@ -2,6 +2,7 @@ import React from 'react'
 
 import * as colors from 'material-ui/lib/styles/colors'
 import Dialog from 'material-ui/lib/dialog'
+import FlatButton from 'material-ui/lib/flat-button'
 import FontIcon from 'material-ui/lib/font-icon'
 import RaisedButton from 'material-ui/lib/raised-button'
 import TextField from 'material-ui/lib/text-field'
@@ -63,18 +64,19 @@ var FileDialog = React.createClass({
 
   render: function() {
 
-    const actionLabel = this.props.action == "load" ? "Load" : "Save";
-    const icon = this.props.action == "load" ? "cloud_download" : "cloud_upload";
-    const actionDisabled = this.state.path.length == 0 || (this.props.action == "load" && this.state.workspace.length == 0);
+    const isLoad = this.props.action == "load"
+    const actionLabel = isLoad ? "Load" : "Save";
+    const icon = isLoad ? "cloud_download" : "cloud_upload";
+    const actionDisabled = this.state.path.length == 0 || (isLoad && this.state.workspace.length == 0);
 
     const actions = [
-      <RaisedButton
+      <FlatButton
         label="Refresh"
         icon={<FontIcon className="material-icons">refresh</FontIcon>}
         onTouchTap={this.handleRefresh}
         style={{margin: 5}}
       />,
-      <RaisedButton
+      <FlatButton
         label="Cancel"
         icon={<FontIcon className="material-icons">cancel</FontIcon>}
         onTouchTap={this.handleClose}
@@ -84,15 +86,15 @@ var FileDialog = React.createClass({
         floatingLabelText="Filename"
         value={this.state.path}
         onChange={this.handleEditPath}
-        style={{marginLeft: "25px", marginRight: "5px"}}
-        disabled={this.props.action == "load"}
+        style={{marginLeft: "25px", marginRight: "5px", width: 200}}
+        disabled={isLoad}
       />,
       <TextField
-        floatingLabelText="Workspace"
-        value={this.props.action == "load" ? this.state.workspace : this.props.workspace}
+        floatingLabelText={"Workspace Name"}
+        value={isLoad ? this.state.workspace : this.props.workspace}
         onChange={this.handleEditName}
-        style={{marginLeft: "25px", marginRight: "5px"}}
-        disabled={this.props.action == "save"}
+        style={{marginLeft: "25px", marginRight: "5px", width: 150}}
+        disabled={!isLoad}
       />,
       <RaisedButton
         label={actionLabel}
@@ -124,6 +126,7 @@ var FileDialog = React.createClass({
           onTouchTap={this.handleClose}
           onRequestClose={this.handleClose}
           autoScrollBodyContent={true}
+          contentStyle={{minWidth: 800}}
         >
           <DirectoryList
             files={this.props.files}
