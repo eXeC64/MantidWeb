@@ -92,6 +92,7 @@ var MantidWorkspaces = React.createClass({
           buttonStyle={{marginTop: 10, marginRight: 10}}
           actions={this.props.actions}
           disabled={this.state.selected.length != 1}
+          curves={this.props.curves}
         />
         <RenameWorkspaceDialog
           buttonStyle={{marginTop: 10, marginRight: 10}}

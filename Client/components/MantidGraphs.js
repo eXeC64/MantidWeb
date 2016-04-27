@@ -44,6 +44,7 @@ var MantidGraphs = React.createClass({
             <NewGraphDialog
               buttonStyle={{marginTop: 10, marginRight: 10}}
               actions={this.props.actions}
+              curves={this.props.curves}
             />
           </View>
         </div>

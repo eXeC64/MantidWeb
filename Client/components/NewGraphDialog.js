@@ -2,10 +2,13 @@ import React from 'react'
 
 import * as colors from 'material-ui/lib/styles/colors'
 import Dialog from 'material-ui/lib/dialog'
+import FlatButton from 'material-ui/lib/raised-button'
 import FontIcon from 'material-ui/lib/font-icon'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 import SelectField from 'material-ui/lib/SelectField'
 import RaisedButton from 'material-ui/lib/raised-button'
+
+import CurveList from './CurveList'
 
 var NewGraphDialog = React.createClass({
 
@@ -32,13 +35,12 @@ var NewGraphDialog = React.createClass({
   },
 
   handleSubmit: function() {
-    //do stuff
     this.setState({open: false})
   },
 
   render: function() {
     const actions = [
-      <RaisedButton
+      <FlatButton
         label="Cancel"
         icon={<FontIcon className="material-icons" style={{color:colors.white}}>cancel</FontIcon>}
         onTouchTap={this.handleClose}
@@ -72,8 +74,13 @@ var NewGraphDialog = React.createClass({
           open={this.state.open}
           onTouchTap={this.handleClose}
           onRequestClose={this.handleClose}
+          autoScrollBodyContent={true}
         >
-          <p>Do stuff here</p>
+          <CurveList
+            curves={this.props.curves}
+            selected=""
+            onSelect={function(){}}
+          />
         </Dialog>
       </span>
     )

@@ -52,6 +52,7 @@ var App = React.createClass({
         workspaces={this.props.workspaces}
         actions={this.props.actions}
         files={this.props.files}
+        curves={this.props.curves}
       />
     )
     const intAlgorithms = (
@@ -65,6 +66,7 @@ var App = React.createClass({
       <MantidGraphs
         actions={this.props.actions}
         graphs={this.props.graphs}
+        curves={this.props.curves}
       />
     )
 
