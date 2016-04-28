@@ -210,6 +210,33 @@ void MantidHTTP::HandleMessage(connection_hdl hdl, const json& js)
         {"data", GetDirectoryContents()}
     });
   }
+  else if(js["type"] == "GET_GRAPH_LIST")
+  {
+    Send(hdl, {
+        {"type", "GRAPH_LIST"},
+        {"data", GetGraphList()}
+    });
+  }
+  else if(js["type"] == "CREATE_GRAPH")
+  {
+    int id = CreateGraph();
+    Broadcast({
+        {"type", "GRAPH_DETAILS"},
+        {"id", id},
+        {"data", GetGraphDetails(id)}
+    });
+  }
+  else if(js["type"] == "DELETE_GRAPH")
+  {
+    const std::string id = js["id"];
+    if(DeleteGraph(std::stoi(id)))
+    {
+      Broadcast({
+          {"type", "GRAPH_DELETED"},
+          {"id", id}
+      });
+    }
+  }
   else if(js["type"] == "GET_CURVE_LIST")
   {
     Send(hdl, {
@@ -299,6 +326,60 @@ json MantidHTTP::GetDirectoryContents()
   return ret;
 }
 
+int MantidHTTP::CreateGraph()
+{
+  int id = 1;
+  while(m_graphs.find(id) != m_graphs.end())
+    ++id;
+
+  m_graphs.insert({id, Graph()});
+  m_graphs[id].SetTitle("Untitled Graph #" + std::to_string(id));
+  return id;
+}
+
+bool MantidHTTP::DeleteGraph(int id)
+{
+  if(m_graphs.find(id) == m_graphs.end())
+    return false;
+
+  m_graphs.erase(id);
+  return true;
+}
+
+json MantidHTTP::GetGraphList()
+{
+  json ret = json::object();
+  for(auto it : m_graphs)
+    ret[std::to_string(it.first)] = GetGraphDetails(it.first);
+  return ret;
+}
+
+json MantidHTTP::GetGraphDetails(int id)
+{
+  json ret;
+
+  auto it = m_graphs.find(id);
+  if(it == m_graphs.end())
+    return ret;
+
+  ret["id"] = it->first;
+  ret["title"] = it->second.Title();
+
+  json curves = json::object();
+  for(const std::string& c : it->second.Curves())
+  {
+    json curve = json::object();
+    curve["name"] = c;
+    curve["label"] = it->second.CurveLabel(c);
+    curve["color"] = it->second.CurveColor(c);
+
+    curves[c] = std::move(curve);
+  }
+
+  ret["curves"] = std::move(curves);
+
+  return ret;
+}
 
 void MantidHTTP::OnWorkspaceAdded(const std::string& name)
 {

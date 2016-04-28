@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MantidWrapper.hpp"
+#include "Graph.hpp"
 
 #include "WebSockets.hpp"
 
@@ -40,10 +41,16 @@ private:
   void Send(websocketpp::connection_hdl hdl, const json& js);
   void Broadcast(const json& js);
 
-  //Data directory functionality
+  // Data directory functionality
   json GetDirectoryContents();
 
-  //Callbacks
+  // Graph functionality
+  int CreateGraph();
+  bool DeleteGraph(int id);
+  json GetGraphList();
+  json GetGraphDetails(int id);
+
+  // Callbacks
   void OnWorkspaceAdded(const std::string& name);
   void OnWorkspaceDeleted(const std::string& name);
   void OnWorkspaceReplaced(const std::string& name);
@@ -72,4 +79,7 @@ private:
 
   // Mantid wrapper
   MantidWrapper m_mantid;
+
+  // Graphs
+  std::map<int, Graph> m_graphs;
 };
