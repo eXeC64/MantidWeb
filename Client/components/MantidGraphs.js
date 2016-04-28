@@ -13,7 +13,7 @@ import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
 import View from 'react-flexbox'
 
 import MantidButton from './MantidButton'
-import NewGraphDialog from './NewGraphDialog'
+import AddCurveDialog from './AddCurveDialog'
 
 var MantidGraphs = React.createClass({
 
@@ -107,6 +107,10 @@ var MantidGraphs = React.createClass({
             icon="add"
             style={{marginRight: 10}}
             onTouchTap={this.createGraph}
+          />
+          <AddCurveDialog
+            buttonStyle={{marginRight: 10}}
+            curves={this.props.curves}
           />
           <MantidButton
             label="Delete"

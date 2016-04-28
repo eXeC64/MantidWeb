@@ -5,7 +5,6 @@ import * as colors from 'material-ui/lib/styles/colors'
 import List from 'material-ui/lib/lists/list'
 
 import MantidButton from './MantidButton'
-import NewGraphDialog from './NewGraphDialog'
 import RenameWorkspaceDialog from './RenameWorkspaceDialog'
 import WorkspaceDetails from './WorkspaceDetails'
 import WorkspaceItem from './WorkspaceItem'
@@ -85,14 +84,6 @@ var MantidWorkspaces = React.createClass({
           buttonStyle={{marginTop: 10, marginRight: 10}}
           disabled={this.state.selected.length != 1}
           files={this.props.files}
-        />
-        <NewGraphDialog
-          label="Graph"
-          icon="insert_chart"
-          buttonStyle={{marginTop: 10, marginRight: 10}}
-          actions={this.props.actions}
-          disabled={this.state.selected.length != 1}
-          curves={this.props.curves}
         />
         <RenameWorkspaceDialog
           buttonStyle={{marginTop: 10, marginRight: 10}}

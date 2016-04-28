@@ -10,12 +10,12 @@ import RaisedButton from 'material-ui/lib/raised-button'
 
 import CurveList from './CurveList'
 
-var NewGraphDialog = React.createClass({
+var AddCurveDialog = React.createClass({
 
   getDefaultProps: function() {
     return {
       icon: "add",
-      label: "New Graph",
+      label: "Add Curves",
       disabled: false
     }
   },
@@ -47,7 +47,7 @@ var NewGraphDialog = React.createClass({
         style={{margin: 5}}
       />,
       <RaisedButton
-        label="Create"
+        label="Add"
         icon={<FontIcon className="material-icons" style={{color:colors.white}}>add</FontIcon>}
         backgroundColor={colors.green500}
         labelColor={colors.white}
@@ -68,7 +68,7 @@ var NewGraphDialog = React.createClass({
           disabled={this.props.disabled}
         />
         <Dialog
-          title="Create New Graph"
+          title="Add Curves"
           actions={actions}
           modal={false}
           open={this.state.open}
@@ -87,4 +87,4 @@ var NewGraphDialog = React.createClass({
   }
 })
 
-export default NewGraphDialog
+export default AddCurveDialog
