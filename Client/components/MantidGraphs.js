@@ -14,6 +14,7 @@ import View from 'react-flexbox';
 
 import MantidButton from './MantidButton'
 import AddCurveDialog from './AddCurveDialog'
+import Graph from './Graph'
 
 var MantidGraphs = React.createClass({
 
@@ -71,6 +72,12 @@ var MantidGraphs = React.createClass({
 
   render: function() {
 
+    let data = [{
+      type: 'scatter',
+      x: [1, 2, 3],
+      y: [6, 2, 3]
+    }];
+
     var graph = (
       <Card key="no-graph" style={{marginTop: 10, padding: 30, width: 600}}>
         <CardTitle
@@ -86,8 +93,7 @@ var MantidGraphs = React.createClass({
       let curGraph = this.props.graphs[this.state.currentGraph];
       graph = (
         <Card key="graph" style={{marginTop: 10, marginRight: 10, padding: 10}}>
-          <h1>{curGraph.title}</h1>
-          <p>This is a graph</p>
+          <Graph title={curGraph.title} data={data} />
         </Card>
       )
     }
