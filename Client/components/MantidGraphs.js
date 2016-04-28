@@ -1,16 +1,16 @@
 import React from 'react'
 
-import {Card, CardHeader, CardText, CardTitle, CardActions} from 'material-ui/lib/card'
-import * as colors from 'material-ui/lib/styles/colors'
+import {Card, CardHeader, CardText, CardTitle, CardActions} from 'material-ui/lib/card';
+import * as colors from 'material-ui/lib/styles/colors';
 import DropDownMenu from 'material-ui/lib/DropDownMenu';
-import List from 'material-ui/lib/lists/list'
+import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item'
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import RaisedButton from 'material-ui/lib/raised-button'
-import Toggle from 'material-ui/lib/toggle'
+import Toggle from 'material-ui/lib/toggle';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
-import View from 'react-flexbox'
+import View from 'react-flexbox';
 
 import MantidButton from './MantidButton'
 import AddCurveDialog from './AddCurveDialog'
@@ -19,21 +19,37 @@ var MantidGraphs = React.createClass({
 
   getInitialState: function() {
     return {
-      currentGraph: (Object.keys(this.props.graphs).length > 0) ? Object.keys(this.props.graphs)[0] : ""
+      currentGraph: (Object.keys(this.props.graphs).length > 0) ? Object.keys(this.props.graphs)[0] : "",
+      switchPending: false //If we just created a new graph, we should switch to it automatically
     }
   },
 
   componentWillReceiveProps: function(props) {
+    const newGraphs = Object.keys(props.graphs);
+    const oldGraphs = Object.keys(this.props.graphs);
+
+    if(this.state.switchPending) {
+      //If a graph was just added, let's switch to it
+      if(newGraphs.length > oldGraphs.length) {
+        for(let i = 0; i < newGraphs.length; ++i) {
+          if(!oldGraphs.includes(newGraphs[i])) {
+            this.setState({currentGraph: newGraphs[i], switchPending: false});
+            return;
+          }
+        }
+      }
+    }
+
     //Select/Unselect a current graph as appropriate
     if(this.state.currentGraph == "") {
-      if(Object.keys(props.graphs).length > 0)
-        this.setState({currentGraph: Object.keys(props.graphs)[0]});
+      if(newGraphs.length > 0)
+        this.setState({currentGraph: newGraphs[0]});
     } else {
       //Current graph deleted
-      if(!Object.keys(props.graphs).includes(this.state.currentGraph)) {
-        //Select the first graph if there is one, otherwise deselect
-        if(Object.keys(props.graphs).length > 0)
-          this.setState({currentGraph: Object.keys(props.graphs)[0]});
+      if(!newGraphs.includes(this.state.currentGraph)) {
+        //Select the last remaining graph, otherwise deselect
+        if(newGraphs.length > 0)
+          this.setState({currentGraph: newGraphs[newGraphs.length-1]});
         else
           this.setState({currentGraph: ""});
       }
@@ -42,6 +58,7 @@ var MantidGraphs = React.createClass({
 
   createGraph: function() {
     this.props.actions.createGraph();
+    this.setState({switchPending: true});
   },
 
   selectGraph: function(event, index, value) {
