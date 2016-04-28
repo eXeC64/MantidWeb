@@ -51,7 +51,7 @@ var NewAlgorithmDialog = React.createClass({
     ]
 
     const selectStyle = {
-      borderRadius: "1em",
+      borderRadius: "0.25em",
       padding: "0.5em",
       backgroundColor: colors.green100,
       border: 0,
