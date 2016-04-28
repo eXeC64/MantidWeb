@@ -21,6 +21,7 @@ const socketMiddleware = (function(){
           ws.send(JSON.stringify({type: "GET_USABLE_ALGORITHMS"}));
           ws.send(JSON.stringify({type: "GET_ALGORITHM_LIST"}));
           ws.send(JSON.stringify({type: "GET_WORKSPACE_LIST"}));
+          ws.send(JSON.stringify({type: "GET_GRAPH_LIST"}));
           ws.send(JSON.stringify({type: "GET_CURVE_LIST"}));
         }
         break;
@@ -32,6 +33,9 @@ const socketMiddleware = (function(){
       case "PROPERTY_UPDATED":
       case "ALGORITHM_STATE":
       case "DIRECTORY_CONTENTS":
+      case "GRAPH_LIST":
+      case "GRAPH_DETAILS":
+      case "GRAPH_DELETED":
       case "CURVE_LIST":
         store.dispatch(msg);
         break;
@@ -70,6 +74,8 @@ const socketMiddleware = (function(){
       case 'SAVE_WORKSPACE':
       case 'SET_PROPERTY':
       case 'RUN_ALGORITHM':
+      case 'CREATE_GRAPH':
+      case 'DELETE_GRAPH':
         socket.send(JSON.stringify(action));
         break;
 

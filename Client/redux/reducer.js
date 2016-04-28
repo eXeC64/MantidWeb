@@ -56,9 +56,12 @@ export function reducer(state, action) {
       }
 
     case 'ALGORITHM_DELETED':
-      const deleted_algs = Object.assign({}, state.algorithms);
+      let deleted_algs = {...state.algorithms}
       delete deleted_algs[action.id];
-      return Object.assign({}, state, {algorithms: deleted_algs})
+      return {
+        ...state,
+        algorithms: deleted_algs
+      }
 
     case "ALGORITHM_STATE":
       var alg_details = {
@@ -122,6 +125,29 @@ export function reducer(state, action) {
           status: "ready",
           list: action.data
         }
+      }
+
+    case 'GRAPH_LIST':
+      return {
+        ...state,
+        graphs: action.data
+      }
+
+    case 'GRAPH_DETAILS':
+      return {
+        ...state,
+        graphs: {
+          ...state.graphs,
+          [action.id]: action.data
+        }
+      }
+
+    case 'GRAPH_DELETED':
+      let deleted_graphs = {...state.graphs}
+      delete deleted_graphs[action.id];
+      return {
+        ...state,
+        graphs: deleted_graphs
       }
 
     case 'CURVE_LIST':

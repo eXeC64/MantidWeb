@@ -96,6 +96,19 @@ let actions = {
     }
   },
 
+  createGraph: function() {
+    return {
+      type: "CREATE_GRAPH"
+    }
+  },
+
+  deleteGraph: function(id) {
+    return {
+      type: "DELETE_GRAPH",
+      id: id
+    }
+  },
+
   refreshFiles: function() {
     return {
       type: 'REFRESH_FILES'
