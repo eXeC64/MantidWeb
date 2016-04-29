@@ -98,8 +98,17 @@ var MantidGraphs = React.createClass({
       )
     }
 
+    let graphSelectorStyle = {
+      backgroundColor: "white",
+      border: "1px solid #aaa",
+      borderRadius: "3px",
+      marginTop: 10,
+      marginRight: 10,
+      paddingBottom: 7
+    };
+
     let graphSelector = (
-      <DropDownMenu value={0} disabled={true}>
+      <DropDownMenu style={graphSelectorStyle} value={0} disabled={true}>
         <MenuItem value={0} primaryText="No Graphs Available" />
       </DropDownMenu>
     );
@@ -109,6 +118,7 @@ var MantidGraphs = React.createClass({
        <DropDownMenu
          value={this.state.currentGraph}
          onChange={this.selectGraph}
+         style={graphSelectorStyle}
        >
         {
           Object.keys(this.props.graphs).map((id) => {
@@ -123,17 +133,19 @@ var MantidGraphs = React.createClass({
       <View column
         style={{marginBottom: 40}}
       >
-        <Card style={{backgroundColor: "white", marginTop: 10, marginRight: 10, padding: 5}}>
+        <div>
           {graphSelector}
           <MantidButton
             label="New Graph"
-            icon="add"
+            icon="insert_chart"
             style={{marginRight: 10}}
             onTouchTap={this.createGraph}
           />
           <AddCurveDialog
             buttonStyle={{marginRight: 10}}
             curves={this.props.curves}
+            disabled={this.state.currentGraph == ""}
+            icon="show_chart"
           />
           <MantidButton
             label="Delete"
@@ -143,7 +155,7 @@ var MantidGraphs = React.createClass({
             onTouchTap={this.deleteGraph}
             backgroundColor={colors.red500}
           />
-        </Card>
+        </div>
         <View column>
           {graph}
         </View>
